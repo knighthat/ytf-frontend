@@ -49,15 +49,33 @@ header {
     Navigation
 */
 
-nav {
-    text-align: right;
-}
-
 nav ul {
+    text-align: right;
     padding: 0 .5rem 0 0;
 }
 
 nav ul li {
     display: inline-block;
     padding: .5rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+
+    font-size: large;
+}
+
+.nav-item > ion-icon {
+    display: none;
+}
+
+@media screen and (max-width: 1280px) {
+    .nav-item > ion-icon {
+        display: initial;
+    }
+
+    .nav-item > span {
+        display: none;
+    }
 }

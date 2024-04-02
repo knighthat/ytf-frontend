@@ -1,4 +1,5 @@
 import './header.css'
+import {IonIcon} from "@ionic/react";
 
 export default function Header() {
   return (
@@ -13,9 +14,24 @@ export default function Header() {
         <div className={'pure-u-1-2 pure-u-xl-1-4'}>
           <nav>
             <ul>
-              <li>My website</li>
-              <li>Theme</li>
-              <li>Changelogs</li>
+              <li>
+                <a className={'nav-item'}>
+                  <IonIcon size='large' name="telescope"></IonIcon>
+                  <span>My website</span>
+                </a>
+              </li>
+              <li>
+                <a className={'nav-item'}>
+                  <IonIcon size='large' name="sunny-sharp"></IonIcon>
+                  <span>Theme</span>
+                </a>
+              </li>
+              <li>
+                <a className={'nav-item'}>
+                  <IonIcon size='large' name="clipboard-sharp"></IonIcon>
+                  <span>Changelogs</span>
+                </a>
+              </li>
             </ul>
           </nav>
         </div>
