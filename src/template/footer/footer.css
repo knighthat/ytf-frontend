@@ -1,0 +1,98 @@
+footer {
+    min-height: 15rem;
+    height: max-content;
+}
+
+@media (prefers-color-scheme: dark) {
+    footer {
+        background-color: var(--theme-dark-bg-2);
+        border-top: 1px var(--theme-dark-fg-2) solid;
+    }
+
+    #about-section ul,
+    #documentation-section ul,
+    #support-section ul {
+        border-left: 1px var(--theme-dark-fg-2) solid;
+    }
+}
+
+.footer-margin {
+    margin: 0 10%;
+    height: max-content;
+}
+
+.footer-margin section > hr {
+    width: 70%;
+    margin: 0;
+}
+
+#about-section ul,
+#documentation-section ul,
+#support-section ul {
+    margin-top: 0;
+    padding: 0 5%;
+}
+
+#about-section li,
+#documentation-section li,
+#support-section li {
+    max-height: 32px;
+    padding: 10px;
+
+    display: flex;
+    align-items: center;
+
+    list-style: none;
+}
+
+#about-section li span,
+#documentation-section li span,
+#support-section li span {
+    max-width: 300px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#about-section ion-icon,
+#documentation-section ion-icon,
+#support-section ion-icon,
+.section-list-icon {
+    margin-right: 10px;
+}
+
+#copyright-notice,
+#project-version {
+    margin: 1rem 0;
+}
+
+#project-version {
+    text-align: right;
+}
+
+@media screen and (max-width: 1024px) {
+    footer {
+        text-align: center;
+    }
+
+    .footer-margin section > hr {
+        visibility: hidden;
+    }
+
+    #about-section ul,
+    #documentation-section ul,
+    #support-section ul {
+        border-left: transparent;
+    }
+
+    #about-section li,
+    #documentation-section li,
+    #support-section li {
+        justify-content: center;
+    }
+
+    #project-version {
+        text-align: center;
+    }
+}
