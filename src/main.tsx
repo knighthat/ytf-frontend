@@ -12,14 +12,14 @@ import Landing from "./template/landing/landing";
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
-      <Header/>
-      <main id={'page-content'}>
-        <BrowserRouter>
+      <BrowserRouter>
+        <Header/>
+        <main id={'page-content'}>
           <Routes>
             <Route path={'/'} element={<Landing/>}/>
           </Routes>
-        </BrowserRouter>
-      </main>
-      <Footer/>
+        </main>
+        <Footer/>
+      </BrowserRouter>
     </React.StrictMode>,
 )
