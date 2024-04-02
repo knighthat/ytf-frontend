@@ -29,12 +29,22 @@ class GithubVersion {
     this.hash = hash;
     this.date = date;
   }
+
+  toString(): string {
+    return `${this.toDateString()}-${this.hash.substring(0, 7)}`
+  }
+
+  private toDateString(): string {
+    const twoDigits = (num: number) => num < 10 ? `0${num}` : `${num}`;
+    const year = this.date.getFullYear(), month = this.date.getMonth(), day = this.date.getDay();
+    return `${year}.${twoDigits(month)}.${twoDigits(day)}`
+  }
 }
 
 function GetVersion() {
   const url = 'https://api.github.com/repos/knighthat/ytf-frontend/commits?per_page=1';
 
-  const [latestCommit, setLatestCommit] = useState<GithubVersion>();
+  const [githubVersion, setGithubVersion] = useState<GithubVersion>();
 
   useEffect(() => {
 
@@ -45,7 +55,7 @@ function GetVersion() {
         if (request.ok) {
 
           const data = (await request.json())[0];
-          setLatestCommit(new GithubVersion(data.hash, data.commit.author.date));
+          setGithubVersion(new GithubVersion(data.sha, new Date(data.commit.author.date)));
         }
       }
       getVersion();
@@ -57,7 +67,7 @@ function GetVersion() {
 
   return (
       <span id={'project-version'} className={'pure-u-1 pure-u-lg-1-2'}>
-      {latestCommit ? latestCommit.date + '-' + latestCommit.hash : 'Getting version...'}
+      {githubVersion ? githubVersion.toString() : 'Getting version...'}
       </span>
   )
 }
