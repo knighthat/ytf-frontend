@@ -33,7 +33,9 @@ export default function PopularFeed() {
 
   return (
       <div id='trending-feed' className={"pure-g"}>
-        {cards.map(element => (<React.Fragment>{element}</React.Fragment>))}
+        {cards.map(element => (
+            <React.Fragment key={element.key}>{element}</React.Fragment>)
+        )}
       </div>
   )
 }
