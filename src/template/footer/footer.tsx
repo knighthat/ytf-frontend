@@ -67,7 +67,8 @@ function GetVersion() {
 
   return (
       <span id={'project-version'} className={'pure-u-1 pure-u-lg-1-2'}>
-      {githubVersion ? githubVersion.toString() : 'Getting version...'}
+        <IonIcon name="git-branch"></IonIcon>
+        {githubVersion ? githubVersion.toString() : 'Getting version...'}
       </span>
   )
 }

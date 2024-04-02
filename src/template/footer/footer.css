@@ -68,7 +68,13 @@ footer {
 }
 
 #project-version {
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#project-version > ion-icon {
+    margin-right: 3px;
 }
 
 @media screen and (max-width: 1024px) {
@@ -93,6 +99,6 @@ footer {
     }
 
     #project-version {
-        text-align: center;
+        justify-content: center;
     }
 }
