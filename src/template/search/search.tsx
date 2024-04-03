@@ -1,7 +1,12 @@
-import {FormEvent} from "react";
+import React, {FormEvent, useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 
 import './search-bar.css'
+import '../../assets/css/video-preview-card.css'
+import '../../assets/css/channel-preview-card.css'
+
+import {VideoPreviewCard, ChannelPreviewCard} from "../../api/PreviewCard";
+import {SearchByKeyword} from "../../api/backend";
 
 export function SearchBar() {
   const [params] = useSearchParams();
@@ -32,5 +37,44 @@ export function SearchBar() {
         />
         <hr/>
       </form>
+  )
+}
+
+export default function SearchPage() {
+  const [params] = useSearchParams();
+
+  const [videoCards, setVideoCards] = useState<VideoPreviewCard[]>([]);
+  const [channelCards, setChannelCards] = useState<ChannelPreviewCard[]>([]);
+  useEffect(() => {
+    const keyword = params.get('key');
+    if (keyword == null)
+      return;
+
+    const getCards = async () => {
+      const [videos, channels] = await SearchByKeyword(keyword);
+      setVideoCards(videos);
+      setChannelCards(channels);
+    }
+
+    getCards();
+  }, [params]);
+
+  return (
+      <>
+        <section className={'nice-alignment'}>
+          <h1>Channels</h1>
+          <hr/>
+          <div id={'search-result-channels'}>
+            {channelCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
+          </div>
+        </section>
+        <section className={'nice-alignment'}>
+          <h1>Videos</h1>
+          <hr/>
+          <div id={'search-result-videos'}>
+            {videoCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
+          </div>
+        </section>
+      </>
   )
 }
