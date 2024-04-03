@@ -1,0 +1,40 @@
+#search-result-channels {
+    gap: 2rem;
+}
+
+.channel-preview-card {
+    border-radius: 10px;
+}
+
+.channel-preview-card h3 {
+    width: 12rem;
+    max-width: 12rem;
+
+    margin: 0;
+    padding: 0 1rem 1rem 1rem;
+
+    text-align: center;
+    /* Only allow up to 2 lines */
+    line-clamp: 2;
+    -webkit-line-clamp: 2;
+
+    /* Show '...' when overflow */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.channel-thumbnail-wrapper {
+    width: 100%;
+    aspect-ratio: 1;
+
+    display: flex;
+    justify-content: center;
+}
+
+.channel-thumbnail-wrapper img {
+    width: 70%;
+    margin: auto;
+
+    border-radius: 50%;
+}
