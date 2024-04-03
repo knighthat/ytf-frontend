@@ -64,7 +64,7 @@ export class VideoPreviewCard extends PreviewCard {
 
   override toHtml(): JSX.Element {
     return (
-        <div key={this.id} className={"video-preview-card pure-u"}>
+        <div key={this.id} className={"pure-u video-preview-card preview-card"}>
           <a className={"preview-thumbnail-container"} href={'https://youtube.com/watch?v=' + this.id}>
             <img
                 className={"preview-thumbnail"}
