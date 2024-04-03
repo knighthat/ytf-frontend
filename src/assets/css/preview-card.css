@@ -1,0 +1,36 @@
+#trending-feed {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    justify-content: center;
+    gap: 1rem;
+}
+
+#search-result-channels,
+#search-result-videos {
+    margin: 1rem;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.preview-card {
+    --card-border-width: 1px;
+    --card-border-default: #575757;
+    --card-border-hover: white;
+    --card-border-hover-trans: 300ms;
+
+    border: var(--card-border-width) var(--card-border-default) solid;
+    color: white;
+    text-decoration: none;
+}
+
+.preview-card:hover {
+    border: var(--card-border-hover) var(--card-border-width) solid;
+    transition: border-top-color var(--card-border-hover-trans),
+    border-right-color var(--card-border-hover-trans),
+    border-bottom-color var(--card-border-hover-trans),
+    border-left-color var(--card-border-hover-trans);
+}
