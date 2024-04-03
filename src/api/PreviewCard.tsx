@@ -139,9 +139,8 @@ export class VideoPreviewCard extends PreviewCard {
     const now = new Date().getTime();
     const delta = Math.floor((now - unix_time) / 1000);
 
-    let result = delta;
+    let result = delta, unit: string;
     const year = 31556952, month = 2629746, day = 86400, hour = 3600, minute = 60
-    let unit = ''
 
     if (delta >= year) {
       result = Math.floor(delta / year);
@@ -151,13 +150,15 @@ export class VideoPreviewCard extends PreviewCard {
       unit = result > 1 ? "months" : "month"
     } else if (delta >= day) {
       result = Math.floor(delta / day);
-      unit = result > 1 ? "months" : "day"
+      unit = result > 1 ? "days" : "day";
     } else if (delta >= hour) {
       result = Math.floor(delta / hour);
-      unit = result > 1 ? "months" : "hour"
+      unit = result > 1 ? "hours" : "hour";
     } else if (delta >= minute) {
       result = Math.floor(delta / minute);
-      unit = result > 1 ? "months" : "minute"
+      unit = result > 1 ? "minutes" : "minute";
+    } else {
+      unit = result > 1 ? "seconds" : "second";
     }
 
     return result + " " + unit + " ago"
