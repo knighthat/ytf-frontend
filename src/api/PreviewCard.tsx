@@ -17,7 +17,7 @@ export enum CardType {
   CHANNEL = "CHANNEL"
 }
 
-abstract class PreviewCard {
+export abstract class PreviewCard {
   id: string;
   type: CardType;
   thumbnail: string;
@@ -29,6 +29,8 @@ abstract class PreviewCard {
     this.thumbnail = thumbnail;
     this.since = since;
   }
+
+  abstract toHtml(): JSX.Element
 }
 
 export class VideoDuration {
@@ -60,7 +62,7 @@ export class VideoPreviewCard extends PreviewCard {
     this.publisher = publisher;
   }
 
-  toHTML() {
+  override toHtml(): JSX.Element {
     return (
         <div key={this.id} className={"video-preview-card pure-u"}>
           <a className={"preview-thumbnail-container"} href={'https://youtube.com/watch?v=' + this.id}>
