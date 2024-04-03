@@ -175,4 +175,19 @@ export class ChannelPreviewCard extends PreviewCard {
     super(id, CardType.CHANNEL, thumbnail, since);
     this.title = title;
   }
+
+  override toHtml(): JSX.Element {
+    return (
+        <a className="channel-preview-card preview-card" href={"https://youtube.com/" + this.id}>
+          <div className="channel-thumbnail-wrapper">
+            <img
+                src={this.thumbnail}
+                className="channel-thumbnail"
+                alt={this.title + "'s logo"}
+            />
+          </div>
+          <h3>{this.title}</h3>
+        </a>
+    );
+  }
 }
