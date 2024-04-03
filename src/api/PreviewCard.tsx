@@ -12,29 +12,52 @@ export class DateTime {
   }
 }
 
-export default class PreviewCard {
-  id: string;
-  videoThumbnail: string;
-  duration: number;
-  videoTitle: string;
-  channelUrl: string;
-  channelTitle: string;
-  channelThumbnail: string;
-  likeCount: number;
-  viewCount: number;
-  uploadTime: DateTime;
+export enum CardType {
+  VIDEO = "VIDEO",
+  CHANNEL = "CHANNEL"
+}
 
-  constructor(id: string, videoThumbnail: string, duration: number, videoTitle: string, channelUrl: string, channelTitle: string, channelThumbnail: string, likeCount: number, viewCount: number, uploadTime: DateTime) {
+abstract class PreviewCard {
+  id: string;
+  type: CardType;
+  thumbnail: string;
+  since: DateTime
+
+  protected constructor(id: string, type: CardType, thumbnail: string, since: DateTime) {
     this.id = id;
-    this.videoThumbnail = videoThumbnail;
+    this.type = type;
+    this.thumbnail = thumbnail;
+    this.since = since;
+  }
+}
+
+export class VideoDuration {
+  hours: number;
+  minutes: number;
+  seconds: number;
+
+  constructor(hours: number, minutes: number, seconds: number) {
+    this.hours = hours;
+    this.minutes = minutes;
+    this.seconds = seconds;
+  }
+}
+
+export class VideoPreviewCard extends PreviewCard {
+
+  duration: VideoDuration;
+  title: string;
+  likes: number;
+  views: number;
+  publisher: ChannelPreviewCard;
+
+  constructor(id: string, since: DateTime, duration: VideoDuration, title: string, likes: number, views: number, publisher: ChannelPreviewCard) {
+    super(id, CardType.VIDEO, "", since);
     this.duration = duration;
-    this.videoTitle = videoTitle;
-    this.channelUrl = channelUrl;
-    this.channelTitle = channelTitle;
-    this.channelThumbnail = channelThumbnail;
-    this.likeCount = likeCount;
-    this.viewCount = viewCount;
-    this.uploadTime = uploadTime;
+    this.title = title;
+    this.likes = likes;
+    this.views = views;
+    this.publisher = publisher;
   }
 
   toHTML() {
@@ -43,44 +66,57 @@ export default class PreviewCard {
           <a className={"preview-thumbnail-container"} href={'https://youtube.com/watch?v=' + this.id}>
             <img
                 className={"preview-thumbnail"}
-                src={this.videoThumbnail}
+                src={`https://i.ytimg.com/vi/${this.id}/hqdefault.jpg`}
                 alt=""
             />
             <div className={"preview-duration-layout"}>
               <div className={"preview-duration"}>
-                <span>{this.convertDuration(this.duration)}</span>
+                <span>{this.getDuration()}</span>
               </div>
             </div>
           </a>
           <div className={"preview-description-container"}>
-            <a href={'https://youtube.com/watch?v=' + this.id}><h3>{this.videoTitle}</h3></a>
-            <a href={"https://youtube.com/" + this.channelUrl} className={"pure-g preview-channel-section"}>
+            <a href={'https://youtube.com/watch?v=' + this.id}><h3>{this.title}</h3></a>
+            <a href={"https://youtube.com/" + this.publisher.id} className={"pure-g preview-channel-section"}>
               <img className={"pure-u-1-4"}
-                   src={this.channelThumbnail}
+                   src={this.publisher.thumbnail}
                    alt=''
               />
-              <span className={"pure-u-3-4"}>{this.channelTitle}</span>
+              <span className={"pure-u-3-4"}>{this.publisher.title}</span>
             </a>
           </div>
           <div className={"pure-g preview-video-statistics-container"}>
+          <span className={"pure-u-1-4"}>
+            <IonIcon name="thumbs-up-sharp"></IonIcon>
+            {this.roundNumber(this.likes)}
+          </span>
             <span className={"pure-u-1-4"}>
-              <IonIcon name="thumbs-up-sharp"></IonIcon>
-              {this.roundNumber(this.likeCount)}
-            </span>
-            <span className={"pure-u-1-4"}>
-              <IonIcon name="eye-sharp"></IonIcon>
-              {this.roundNumber(this.viewCount)}
-            </span>
+            <IonIcon name="eye-sharp"></IonIcon>
+              {this.roundNumber(this.views)}
+          </span>
             <span className={"pure-u-1-2"}>
-              <IonIcon name="time-sharp"></IonIcon>
-              {this.convertTime(this.uploadTime.value)}
-            </span>
+            <IonIcon name="time-sharp"></IonIcon>
+              {this.convertTime(this.since.value)}
+          </span>
           </div>
         </div>
     )
   }
 
-  private roundNumber(num: number) {
+  private getDuration(): string {
+    let result: string = ""
+
+    const twoDigits = (num: number) => num <= 10 ? `0${num}` : `${num}`;
+
+    if (this.duration.hours > 0)
+      result += twoDigits(this.duration.hours) + ":";
+    result += twoDigits(this.duration.minutes) + ":";
+    result += twoDigits(this.duration.seconds);
+
+    return result;
+  }
+
+  private roundNumber(num: number): string {
     let rounded = num;
     const billion = 1000000000, million = 1000000, thousand = 1000;
     let unit = '';
@@ -99,7 +135,7 @@ export default class PreviewCard {
     return rounded + unit;
   }
 
-  private convertTime(unix_time: number) {
+  private convertTime(unix_time: number): string {
     const now = new Date().getTime();
     const delta = Math.floor((now - unix_time) / 1000);
 
@@ -126,23 +162,14 @@ export default class PreviewCard {
 
     return result + " " + unit + " ago"
   }
+}
 
-  private convertDuration(time: number) {
-    let second = time, hour = 0, minute = 60;
+export class ChannelPreviewCard extends PreviewCard {
 
-    if (second >= 3600) {
-      hour = Math.floor(second / 3600);
-      second -= hour * 3600;
-    }
-    if (second >= 60) {
-      minute = Math.floor(second / 60);
-      second -= minute * 60;
-    }
+  title: string
 
-    let builder = hour > 0 ? (hour + ":") : ""
-    builder += (minute >= 10 ? minute : "0" + minute) + ":"
-    builder += (second >= 10 ? second : "0" + second)
-
-    return builder
+  constructor(id: string, thumbnail: string, since: DateTime, title: string) {
+    super(id, CardType.CHANNEL, thumbnail, since);
+    this.title = title;
   }
 }
