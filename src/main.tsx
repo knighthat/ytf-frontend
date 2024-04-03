@@ -8,6 +8,7 @@ import './main.css'
 import Header from "./template/header/header";
 import Footer from "./template/footer/footer";
 import Landing from "./template/landing/landing";
+import SearchPage from "./template/search/search";
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <main id={'page-content'}>
           <Routes>
             <Route path={'/'} element={<Landing/>}/>
+            <Route path={'/search'} element={<SearchPage/>}/>
           </Routes>
         </main>
         <Footer/>
