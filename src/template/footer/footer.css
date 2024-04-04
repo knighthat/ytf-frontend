@@ -9,9 +9,7 @@ footer {
         border-top: 1px var(--theme-dark-fg-2) solid;
     }
 
-    #about-section ul,
-    #documentation-section ul,
-    #support-section ul {
+    .footer-section ul {
         border-left: 1px var(--theme-dark-fg-2) solid;
     }
 }
@@ -26,40 +24,48 @@ footer {
     margin: 0;
 }
 
-#about-section ul,
-#documentation-section ul,
-#support-section ul {
+.footer-section ul {
     margin-top: 0;
     padding: 0 5%;
 }
 
-#about-section li,
-#documentation-section li,
-#support-section li {
-    max-height: 32px;
+.footer-section li {
     padding: 10px;
-
-    display: flex;
-    align-items: center;
-
     list-style: none;
 }
 
-#about-section li span,
-#documentation-section li span,
-#support-section li span {
-    max-width: 300px;
+.footer-section li:not(a) {
+    display: flex;
+    align-items: center;
+}
+
+.footer-section li:not(a) > span {
+    pointer-events: none;
+}
+
+/*.footer-section a*/
+.footer-section li:has(a) > a,
+.footer-section li > span {
+    width: 300px;
+
+    display: inline-block;
+
+    color: var(--theme-dark-fg-1);
+    text-decoration: none;
 
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-#about-section ion-icon,
-#documentation-section ion-icon,
-#support-section ion-icon,
-.section-list-icon {
+.footer-section ion-icon,
+.footer-section img {
     margin-right: 10px;
+    vertical-align: middle;
+}
+
+.footer-section span {
+    vertical-align: middle;
 }
 
 #copyright-notice,
@@ -86,15 +92,11 @@ footer {
         visibility: hidden;
     }
 
-    #about-section ul,
-    #documentation-section ul,
-    #support-section ul {
+    .footer-section ul {
         border-left: transparent;
     }
 
-    #about-section li,
-    #documentation-section li,
-    #support-section li {
+    .footer-section li {
         justify-content: center;
     }
 
