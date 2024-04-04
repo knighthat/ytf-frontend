@@ -4,6 +4,8 @@ import {Link} from "react-router-dom";
 
 import './footer.css'
 
+import {GetLatestCommit, GithubVersion} from "../../api/github";
+
 interface ListProps {
   icon: string;
   isIcon: boolean;
@@ -32,48 +34,11 @@ function MakeLi(props: ListProps): JSX.Element {
     return <li><Content/></li>
 }
 
-class GithubVersion {
-  hash: string;
-  date: Date;
-
-  constructor(hash: string, date: Date) {
-    this.hash = hash;
-    this.date = date;
-  }
-
-  toString(): string {
-    return `${this.toDateString()}-${this.hash.substring(0, 7)}`
-  }
-
-  private toDateString(): string {
-    const twoDigits = (num: number) => num < 10 ? `0${num}` : `${num}`;
-    const year = this.date.getFullYear(), month = this.date.getMonth(), day = this.date.getDay();
-    return `${year}.${twoDigits(month)}.${twoDigits(day)}`
-  }
-}
-
 function GetVersion() {
-  const url = 'https://api.github.com/repos/knighthat/ytf-frontend/commits?per_page=1';
-
-  const [githubVersion, setGithubVersion] = useState<GithubVersion>();
-
+  const [githubVersion, setGithubVersion] = useState<GithubVersion | null>();
   useEffect(() => {
-
-    try {
-      const getVersion = async () => {
-
-        const request = await fetch(url);
-        if (request.ok) {
-
-          const data = (await request.json())[0];
-          setGithubVersion(new GithubVersion(data.sha, new Date(data.commit.author.date)));
-        }
-      }
-      getVersion();
-    } catch (err) {
-      console.log('Failed to fetch commit from URL: ' + url)
-      console.log(err)
-    }
+    const getCommit = async () => setGithubVersion(await GetLatestCommit());
+    getCommit();
   }, []);
 
   return (
