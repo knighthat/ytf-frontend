@@ -79,7 +79,7 @@ export class VideoPreviewCard extends PreviewCard {
           </a>
           <div className={"preview-description-container"}>
             <a href={'https://youtube.com/watch?v=' + this.id}><h3>{this.title}</h3></a>
-            <a href={"https://youtube.com/" + this.publisher.id} className={"pure-g preview-channel-section"}>
+            <a href={"https://youtube.com/" + this.publisher.url} className={"pure-g preview-channel-section"}>
               <img className={"pure-u-1-4"}
                    src={this.publisher.thumbnail}
                    alt=''
@@ -170,15 +170,17 @@ export class VideoPreviewCard extends PreviewCard {
 export class ChannelPreviewCard extends PreviewCard {
 
   title: string
+  url: string
 
-  constructor(id: string, thumbnail: string, since: DateTime, title: string) {
+  constructor(id: string, thumbnail: string, since: DateTime, title: string, url: string) {
     super(id, CardType.CHANNEL, thumbnail, since);
     this.title = title;
+    this.url = url;
   }
 
   override toHtml(): JSX.Element {
     return (
-        <a className="channel-preview-card preview-card" href={"https://youtube.com/" + this.id}>
+        <a className="channel-preview-card preview-card" href={"https://youtube.com/" + this.url}>
           <div className="channel-thumbnail-wrapper">
             <img
                 src={this.thumbnail}
