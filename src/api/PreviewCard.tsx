@@ -1,4 +1,5 @@
 import {IonIcon} from "@ionic/react";
+import {Link} from "react-router-dom";
 
 export class DateTime {
   value: number;
@@ -64,8 +65,8 @@ export class VideoPreviewCard extends PreviewCard {
 
   override toHtml(): JSX.Element {
     return (
-        <div key={this.id} className={"pure-u video-preview-card preview-card"}>
-          <a className={"preview-thumbnail-container"} href={'https://youtube.com/watch?v=' + this.id}>
+        <Link className={"pure-u video-preview-card preview-card"} to={'https://youtube.com/watch?v=' + this.id}>
+          <div className={"preview-thumbnail-container"}>
             <img
                 className={"preview-thumbnail"}
                 src={`https://i.ytimg.com/vi/${this.id}/hqdefault.jpg`}
@@ -76,16 +77,16 @@ export class VideoPreviewCard extends PreviewCard {
                 <span>{this.getDuration()}</span>
               </div>
             </div>
-          </a>
+          </div>
           <div className={"preview-description-container"}>
-            <a href={'https://youtube.com/watch?v=' + this.id}><h3>{this.title}</h3></a>
-            <a href={"https://youtube.com/" + this.publisher.url} className={"pure-g preview-channel-section"}>
+            <h3>{this.title}</h3>
+            <Link to={"https://youtube.com/" + this.publisher.url} className={"pure-g preview-channel-section"}>
               <img className={"pure-u-1-4"}
                    src={this.publisher.thumbnail}
                    alt=''
               />
               <span className={"pure-u-3-4"}>{this.publisher.title}</span>
-            </a>
+            </Link>
           </div>
           <div className={"pure-g preview-video-statistics-container"}>
             <span className={"pure-u-1-4"}>
@@ -101,7 +102,7 @@ export class VideoPreviewCard extends PreviewCard {
               {this.convertTime(this.since.value)}
             </span>
           </div>
-        </div>
+        </Link>
     )
   }
 
