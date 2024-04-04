@@ -88,18 +88,18 @@ export class VideoPreviewCard extends PreviewCard {
             </a>
           </div>
           <div className={"pure-g preview-video-statistics-container"}>
-          <span className={"pure-u-1-4"}>
-            <IonIcon name="thumbs-up-sharp"></IonIcon>
-            {this.roundNumber(this.likes)}
-          </span>
             <span className={"pure-u-1-4"}>
-            <IonIcon name="eye-sharp"></IonIcon>
+              <IonIcon name="thumbs-up-sharp"></IonIcon>
+              {this.roundNumber(this.likes)}
+            </span>
+            <span className={"pure-u-1-4"}>
+              <IonIcon name="eye-sharp"></IonIcon>
               {this.roundNumber(this.views)}
-          </span>
+            </span>
             <span className={"pure-u-1-2"}>
-            <IonIcon name="time-sharp"></IonIcon>
+              <IonIcon name="time-sharp"></IonIcon>
               {this.convertTime(this.since.value)}
-          </span>
+            </span>
           </div>
         </div>
     )
