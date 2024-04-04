@@ -108,7 +108,7 @@ export class VideoPreviewCard extends PreviewCard {
   private getDuration(): string {
     let result: string = ""
 
-    const twoDigits = (num: number) => num <= 10 ? `0${num}` : `${num}`;
+    const twoDigits = (num: number) => num < 10 ? `0${num}` : `${num}`;
 
     if (this.duration.hours > 0)
       result += twoDigits(this.duration.hours) + ":";
