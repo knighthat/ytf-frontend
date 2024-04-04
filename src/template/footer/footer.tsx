@@ -1,5 +1,6 @@
-import React, {useEffect, useState} from "react";
+import {JSX, useEffect, useState} from "react";
 import {IonIcon} from "@ionic/react";
+import {Link} from "react-router-dom";
 
 import './footer.css'
 
@@ -8,17 +9,27 @@ interface ListProps {
   isIcon: boolean;
   text: string;
   alt?: string;
+  to?: string;
 }
 
-const MakeLi: React.FC<ListProps> = (props) => {
-  return (
-      <li>
-        {props.isIcon
-            ? <IonIcon size="large" name={props.icon}></IonIcon>
-            : <img className={'section-list-icon'} src={'/icons/' + props.icon + '-32x32.png'} alt={props.alt}/>}
-        <span>{props.text}</span>
-      </li>
-  )
+function MakeLi(props: ListProps): JSX.Element {
+  const Content = () => {
+    return (
+        <>
+          {
+            props.isIcon
+                ? <IonIcon size="large" name={props.icon}></IonIcon>
+                : <img src={'/icons/' + props.icon + '-32x32.png'} alt={props.alt}/>
+          }
+          <span>{props.text}</span>
+        </>
+    )
+  }
+
+  if (props.to != undefined)
+    return <li><Link to={props.to}><Content/></Link></li>
+  else
+    return <li><Content/></li>
 }
 
 class GithubVersion {
@@ -78,7 +89,7 @@ export default function Footer() {
       <footer>
         <div className={'footer-margin'}>
           <div className={'pure-g'}>
-            <section id={'about-section'} className={'pure-u-1 pure-u-lg-1-3'}>
+            <section className={'pure-u-1 pure-u-lg-1-3 footer-section'}>
               <h2>What is this?</h2>
               <hr/>
               <ul>
@@ -87,16 +98,16 @@ export default function Footer() {
                 <MakeLi icon='mail-sharp' isIcon={true} text='Contact'/>
               </ul>
             </section>
-            <section id={'documentation-section'} className={'pure-u-1 pure-u-lg-1-3'}>
+            <section className={'pure-u-1 pure-u-lg-1-3 footer-section'}>
               <h2>Documentation</h2>
               <hr/>
               <ul>
                 <MakeLi icon='folder-open-sharp' isIcon={true} text='Documents'/>
                 <MakeLi icon='help-circle-sharp' isIcon={true} text='FAQ'/>
-                <MakeLi icon='layers-sharp' isIcon={true} text='Dependency licences'/>
+                <MakeLi icon='layers-sharp' isIcon={true} text='Dependency licences' to='/licenses'/>
               </ul>
             </section>
-            <section id={'support-section'} className={'pure-u-1 pure-u-lg-1-3'}>
+            <section className={'pure-u-1 pure-u-lg-1-3 footer-section'}>
               <h2>Support</h2>
               <hr/>
               <ul>
