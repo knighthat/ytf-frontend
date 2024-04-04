@@ -61,20 +61,30 @@ export default function SearchPage() {
 
   return (
       <>
-        <section className={'nice-alignment'}>
-          <h1>Channels</h1>
-          <hr/>
-          <div id={'search-result-channels'}>
-            {channelCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
-          </div>
-        </section>
-        <section className={'nice-alignment'}>
-          <h1>Videos</h1>
-          <hr/>
-          <div id={'search-result-videos'}>
-            {videoCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
-          </div>
-        </section>
+        {
+          channelCards.length > 0
+              ? (
+                  <section className={'nice-alignment'}>
+                    <h1>Channels</h1>
+                    <hr/>
+                    <div id={'search-result-channels'}>
+                      {channelCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
+                    </div>
+                  </section>
+              ) : <></>
+        }
+        {
+          videoCards.length > 0
+              ? (
+                  <section className={'nice-alignment'}>
+                    <h1>Videos</h1>
+                    <hr/>
+                    <div id={'search-result-videos'}>
+                      {videoCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
+                    </div>
+                  </section>
+              ) : <></>
+        }
       </>
   )
 }
