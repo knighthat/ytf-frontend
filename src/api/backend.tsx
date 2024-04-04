@@ -1,5 +1,5 @@
 import {plainToInstance} from "class-transformer";
-import {CardType, ChannelPreviewCard, VideoPreviewCard} from "./PreviewCard";
+import {ChannelPreviewCard, VideoPreviewCard} from "./PreviewCard";
 
 const API_ENDPOINT: string = import.meta.env.VITE_API_ENDPOINT;
 
@@ -25,24 +25,14 @@ export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCar
       const videos: VideoPreviewCard[] = [];
       const channels: ChannelPreviewCard[] = [];
 
-      (await request.json()).map(card => {
+      const data = await request.json();
+      for (const card of data) {
 
         if (card.type === 'VIDEO')
-          return plainToInstance(VideoPreviewCard, card)
+          videos.push(plainToInstance(VideoPreviewCard, card as object));
         else if (card.type === 'CHANNEL')
-          return plainToInstance(ChannelPreviewCard, card);
-
-      }).forEach(card => {
-
-        if (card == null)
-          return;
-
-        if (card.type == CardType.VIDEO)
-          videos.push(card as VideoPreviewCard);
-        if (card.type == CardType.CHANNEL)
-          channels.push(card as ChannelPreviewCard);
-
-      });
+          channels.push(plainToInstance(ChannelPreviewCard, card as object));
+      }
 
       return [videos, channels];
     }
