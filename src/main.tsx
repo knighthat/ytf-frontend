@@ -10,6 +10,7 @@ import Footer from "./template/footer/footer";
 import Landing from "./template/landing/landing";
 import SearchPage from "./template/search/search";
 import Licenses from "./template/licenses/licenses";
+import WatchPage from "./template/watch/video";
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path={'/'} element={<Landing/>}/>
             <Route path={'/search'} element={<SearchPage/>}/>
             <Route path={'/licenses'} element={<Licenses/>}/>
+            <Route path={'/watch'} element={<WatchPage/>}/>
           </Routes>
         </main>
         <Footer/>
