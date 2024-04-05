@@ -1,7 +1,9 @@
 import {plainToInstance} from "class-transformer";
 import {ChannelPreviewCard, VideoPreviewCard} from "./PreviewCard";
+import {VideoPlayer} from "./VideoPlayer";
 
 const API_ENDPOINT: string = import.meta.env.VITE_API_ENDPOINT;
+const IS_DEV: boolean = import.meta.env.DEV;
 
 export async function PopularVideos(): Promise<Array<VideoPreviewCard>> {
   const url = import.meta.env.DEV ? '/popular.json' : `${API_ENDPOINT}/v1/popular?max=20`;
@@ -41,4 +43,22 @@ export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCar
   }
 
   return [[], []];
+}
+
+export async function GetVideo(id: string | null): Promise<VideoPlayer | null> {
+  if (!id)
+    return null;
+
+  const url = IS_DEV ? '/player.json' : `${API_ENDPOINT}/v1/player/${id}`;
+  try {
+    const request = await fetch(url);
+    if (request.ok) {
+      const data = await request.json();
+      return plainToInstance(VideoPlayer, data as object);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  return null;
 }
