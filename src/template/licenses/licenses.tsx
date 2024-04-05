@@ -31,7 +31,7 @@ class Dependency {
   }
 
   licenseUrl(): string {
-    return `https://opensource.org/license/${this.name.toLowerCase()}`
+    return `https://opensource.org/license/${this.license.toLowerCase()}`
   }
 }
 
