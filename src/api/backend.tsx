@@ -6,7 +6,7 @@ const API_ENDPOINT: string = import.meta.env.VITE_API_ENDPOINT;
 const IS_DEV: boolean = import.meta.env.DEV;
 
 export async function PopularVideos(): Promise<Array<VideoPreviewCard>> {
-  const url = import.meta.env.DEV ? '/popular.json' : `${API_ENDPOINT}/v1/popular?max=20`;
+  const url = IS_DEV ? '/popular.json' : `${API_ENDPOINT}/v1/popular?max=20`;
   try {
     const request = await fetch(url);
     if (request.ok) {
@@ -20,7 +20,7 @@ export async function PopularVideos(): Promise<Array<VideoPreviewCard>> {
 }
 
 export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCard[], ChannelPreviewCard[]]> {
-  const url = import.meta.env.DEV ? '/search.json' : `${API_ENDPOINT}/v1/search?key=${keyword}&max=20`;
+  const url = IS_DEV ? '/search.json' : `${API_ENDPOINT}/v1/search?key=${keyword}&max=20`;
   try {
     const request = await fetch(url);
     if (request.ok) {
