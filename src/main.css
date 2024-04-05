@@ -14,3 +14,8 @@
         color: var(--theme-dark-fg-1);
     }
 }
+
+a {
+    color: white;
+    text-decoration: none;
+}
