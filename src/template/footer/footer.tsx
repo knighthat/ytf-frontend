@@ -20,7 +20,7 @@ function MakeLi(props: ListProps): JSX.Element {
         <>
           {
             props.isIcon
-                ? <IonIcon size="large" name={props.icon}></IonIcon>
+                ? <IonIcon size="large" icon={props.icon}/>
                 : <img src={'/icons/' + props.icon + '-32x32.png'} alt={props.alt}/>
           }
           <span>{props.text}</span>
@@ -43,7 +43,7 @@ function GetVersion() {
 
   return (
       <span id={'project-version'} className={'pure-u-1 pure-u-lg-1-2'}>
-        <IonIcon name="git-branch"></IonIcon>
+        <IonIcon icon="git-branch"/>
         {githubVersion ? githubVersion.toString() : 'Getting version...'}
       </span>
   )

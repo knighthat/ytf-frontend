@@ -16,19 +16,19 @@ export default function Header() {
             <ul>
               <li>
                 <a className={'nav-item'}>
-                  <IonIcon size='large' name="telescope"></IonIcon>
+                  <IonIcon size='large' icon="telescope"/>
                   <span>My website</span>
                 </a>
               </li>
               <li>
                 <a className={'nav-item'}>
-                  <IonIcon size='large' name="sunny-sharp"></IonIcon>
+                  <IonIcon size='large' icon="sunny-sharp"/>
                   <span>Theme</span>
                 </a>
               </li>
               <li>
                 <a className={'nav-item'}>
-                  <IonIcon size='large' name="clipboard-sharp"></IonIcon>
+                  <IonIcon size='large' icon="clipboard-sharp"/>
                   <span>Changelogs</span>
                 </a>
               </li>
