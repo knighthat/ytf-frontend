@@ -1,76 +1,80 @@
 import './licenses.css'
 
-import licenses from '../../assets/licenses.json'
+import licensesFile from '../../assets/licenses.json'
+import {plainToInstance} from "class-transformer";
 
-class License {
-  name: string;
-
-  constructor(name: string) {
-    this.name = name;
-  }
-
-  getUrl(): string {
-    return `https://opensource.org/license/${this.name.toLowerCase()}`
+class DependencyFile {
+  [key: string]: {
+    licenses: string;
+    repository: string;
   }
 }
 
 class Dependency {
+
   name: string;
   version: string;
-  license: License;
+  license: string;
+  repository: string;
 
-  constructor(name: string, version: string, license: License) {
-    this.name = name;
-    this.version = version;
+  constructor(name: string, license: string, repository: string) {
+    let i: number = name.length;
+    while (i > 0)
+      if (name.charAt(i) === '@')
+        break
+      else i--;
+
+    this.name = name.substring(0, i);
+    this.version = name.substring(i + 1, name.length);
     this.license = license;
+    this.repository = repository;
   }
-}
 
-function extractVersion(input: string): [string, string] {
-  let i: number = input.length;
-  while (i > 0)
-    if (input.charAt(i) === '@')
-      break
-    else i--;
-
-  return [input.substring(0, i), input.substring(i + 1, input.length)];
-}
-
-function getDependencies(): Dependency[] {
-  const dependencies: Dependency[] = []
-
-  Object.keys(licenses).map((key: string) => {
-    if (key == 'ytf-frontend@0.0.0')
-      return;
-
-    const [name, version] = extractVersion(key);
-    const license = new License(licenses[key].licenses)
-    dependencies.push(new Dependency(name, version, license));
-  });
-
-  return dependencies
+  licenseUrl(): string {
+    return `https://opensource.org/license/${this.name.toLowerCase()}`
+  }
 }
 
 export default function Licenses() {
 
+  const depFile = plainToInstance(DependencyFile, licensesFile);
+  const deps: Dependency[] = [];
+  for (const key in depFile) {
+    if (key === "ytf-frontend@0.0.0")
+      continue;
+    deps.push(new Dependency(key, depFile[key].licenses, depFile[key].repository));
+  }
+
   return (
       <table>
+        <thead>
         <tr>
           <th>Name</th>
           <th>Version</th>
           <th>License</th>
         </tr>
-        {getDependencies().map(dependency => {
-          return (
-              <tr>
-                <td>{dependency.name}</td>
-                <td>{dependency.version}</td>
-                <td><a href={dependency.license.getUrl()} target='_blank'>
-                  {dependency.license.name}
-                </a></td>
-              </tr>
-          )
-        })}
+        </thead>
+        <tbody>
+        {
+          deps.map((license, index) => {
+            return (
+                <tr key={index}>
+                  <td>
+                    <a href={license.repository} target='_blank'>
+                      {license.name}
+                    </a>
+                  </td>
+                  <td>{license.version}</td>
+                  <td>
+                    <a href={license.licenseUrl()} target='_blank'>
+                      {license.license}
+                    </a>
+                  </td>
+                </tr>
+            )
+          })
+        }
+        </tbody>
       </table>
   )
 }
