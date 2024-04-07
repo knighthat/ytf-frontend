@@ -20,7 +20,7 @@ import {useEffect, useState} from "react";
 import '../../assets/css/preview-card.css'
 
 import {ChannelPreviewCard, VideoPreviewCard, VideoCard} from "../../api/v2/PreviewCard";
-import {GetChannels, PopularVideos} from "../../api/v2/backend";
+import {GetChannelPreviewCards, PopularVideos} from "../../api/v2/backend";
 
 export default function PopularFeed() {
   const [videos, setVideos] = useState<VideoPreviewCard[]>([]);
@@ -31,7 +31,7 @@ export default function PopularFeed() {
       setVideos(popular);
 
       const cIds = () => popular.map(v => v.publisherId);
-      const cCards = await GetChannels(cIds());
+      const cCards = await GetChannelPreviewCards(cIds());
 
       const channelMap: Map<string, ChannelPreviewCard> = new Map();
       for (const card of cCards)

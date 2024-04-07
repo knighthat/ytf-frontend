@@ -6,7 +6,7 @@ import '../../assets/css/video-preview-card.css'
 import '../../assets/css/channel-preview-card.css'
 
 import {ChannelCard, ChannelPreviewCard, VideoCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
-import {GetChannels, SearchByKeyword} from "../../api/v2/backend";
+import {GetChannelPreviewCards, SearchByKeyword} from "../../api/v2/backend";
 
 
 export function SearchBar() {
@@ -60,7 +60,7 @@ export default function SearchPage() {
       setChannelCards(channels);
 
       const cIds = () => videos.map(v => v.publisherId);
-      const cCards = await GetChannels(cIds());
+      const cCards = await GetChannelPreviewCards(cIds());
 
       const channelMap: Map<string, ChannelPreviewCard> = new Map();
       for (const card of cCards)

@@ -35,8 +35,8 @@ export async function PopularVideos(): Promise<Array<VideoPreviewCard>> {
   return []
 }
 
-export async function GetChannels(ids: string[]): Promise<ChannelPreviewCard[]> {
-  const url = IS_DEV ? '/channels.json' : `${API_ENDPOINT}/channels`
+export async function GetChannelPreviewCards(ids: string[]): Promise<ChannelPreviewCard[]> {
+  const url = IS_DEV ? '/channels.json' : `${API_ENDPOINT}/preview/channels`
   try {
     const request = await fetch(`${url}?id=${ids.join(',')}`)
     if (request.ok) {
