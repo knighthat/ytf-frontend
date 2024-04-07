@@ -22,11 +22,6 @@ import {IonIcon} from "@ionic/react";
 import InfoContainer, {DateTime, timeFromNow} from "./InfoContainer";
 import {roundToMagnitude} from "../../utils/NumUtils";
 
-enum CardType {
-  VIDEO = "VIDEO",
-  CHANNEL = "CHANNEL"
-}
-
 export class VideoDuration {
   hours: number;
   minutes: number;
@@ -46,12 +41,10 @@ function readableDuration(videoDuration: VideoDuration) {
 
 
 export abstract class PreviewCard extends InfoContainer {
-  type: CardType;
   thumbnail: string;
 
-  protected constructor(id: string, since: DateTime, type: CardType, thumbnail: string) {
+  protected constructor(id: string, since: DateTime, thumbnail: string) {
     super(id, since);
-    this.type = type;
     this.thumbnail = thumbnail;
   }
 }
@@ -65,7 +58,7 @@ export class VideoPreviewCard extends PreviewCard {
   publisherId: string;
 
   constructor(id: string, since: DateTime, duration: VideoDuration, title: string, likes: number, views: number, publisherId: string) {
-    super(id, since, CardType.VIDEO, '');
+    super(id, since, '');
     this.duration = duration;
     this.title = title;
     this.likes = likes;
@@ -88,7 +81,7 @@ export class ChannelPreviewCard extends PreviewCard {
   url: string
 
   constructor(id: string, thumbnail: string, since: DateTime, title: string, url: string) {
-    super(id, since, CardType.CHANNEL, thumbnail);
+    super(id, since, thumbnail);
     this.title = title;
     this.url = url;
   }
