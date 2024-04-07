@@ -69,30 +69,11 @@ export class VideoPreviewCard extends PreviewCard {
   }
 
   getLikesAsString(): string {
-    return this.roundNumber(this.likes);
+    return roundToMagnitude(this.likes);
   }
 
   getViewsAsString(): string {
-    return this.roundNumber(this.views);
-  }
-
-  private roundNumber(num: number): string {
-    let rounded = num;
-    const billion = 1000000000, million = 1000000, thousand = 1000;
-    let unit = '';
-
-    if (num >= billion) {
-      rounded = Math.floor(num / billion);
-      unit = "B";
-    } else if (num >= million) {
-      rounded = Math.floor(num / million);
-      unit = "M";
-    } else if (num >= thousand) {
-      rounded = Math.floor(num / thousand);
-      unit = 'K';
-    }
-
-    return rounded + unit;
+    return roundToMagnitude(this.views);
   }
 }
 
