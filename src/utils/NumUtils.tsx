@@ -16,7 +16,7 @@
  */
 
 export function roundToMagnitude(num: number) {
-  const billion = 10 ^ 9, million = 10 ^ 6, thousand = 10 ^ 3;
+  const billion = 10 ** 9, million = 10 ** 6, thousand = 10 ** 3;
   let rounded = num;
   let unit = '';
 
