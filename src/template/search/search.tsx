@@ -5,8 +5,8 @@ import './search-bar.css'
 import '../../assets/css/video-preview-card.css'
 import '../../assets/css/channel-preview-card.css'
 
-import {VideoPreviewCard, ChannelPreviewCard} from "../../api/PreviewCard";
-import {SearchByKeyword} from "../../api/backend";
+import {VideoPreviewCard, ChannelPreviewCard} from "../../api/v1/PreviewCard";
+import {SearchByKeyword} from "../../api/v1/backend";
 
 export function SearchBar() {
   const [params] = useSearchParams();

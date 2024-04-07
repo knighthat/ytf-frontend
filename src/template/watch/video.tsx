@@ -19,8 +19,8 @@ import './watch-page.css'
 
 import {Link, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {GetVideo} from "../../api/backend";
-import {Comment, VideoPlayer} from "../../api/VideoPlayer";
+import {GetVideo} from "../../api/v1/backend";
+import {Comment, VideoPlayer} from "../../api/v1/VideoPlayer";
 import {IonIcon} from "@ionic/react";
 
 function CommentCard(comment: Comment, index: number) {
