@@ -1,12 +1,13 @@
-import React, {FormEvent, useEffect, useState} from "react";
+import {FormEvent, useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 
 import './search-bar.css'
 import '../../assets/css/video-preview-card.css'
 import '../../assets/css/channel-preview-card.css'
 
-import {VideoPreviewCard, ChannelPreviewCard} from "../../api/v1/PreviewCard";
-import {SearchByKeyword} from "../../api/v1/backend";
+import {ChannelCard, ChannelPreviewCard, VideoCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
+import {GetChannels, SearchByKeyword} from "../../api/v2/backend";
+
 
 export function SearchBar() {
   const [params] = useSearchParams();
@@ -45,7 +46,10 @@ export default function SearchPage() {
 
   const [videoCards, setVideoCards] = useState<VideoPreviewCard[]>([]);
   const [channelCards, setChannelCards] = useState<ChannelPreviewCard[]>([]);
+  const [channels, setChannels] = useState<Map<string, ChannelPreviewCard>>();
+
   useEffect(() => {
+
     const keyword = params.get('key');
     if (keyword == null)
       return;
@@ -54,37 +58,59 @@ export default function SearchPage() {
       const [videos, channels] = await SearchByKeyword(keyword);
       setVideoCards(videos);
       setChannelCards(channels);
+
+      const cIds = () => videos.map(v => v.publisherId);
+      const cCards = await GetChannels(cIds());
+
+      const channelMap: Map<string, ChannelPreviewCard> = new Map();
+      for (const card of cCards)
+        channelMap.set(card.id, card);
+
+      setChannels(channelMap);
+
     }
 
     getCards();
   }, [params]);
 
+  function ChannelCards(): JSX.Element {
+    if (channelCards.length <= 0)
+      return <></>
+
+    return (
+        <section className={'nice-alignment'}>
+          <h1>Channels</h1>
+          <hr/>
+          <div id={'search-result-channels'}>
+            {channelCards.map((card, index) =>
+                <ChannelCard key={index} channel={card}/>
+            )}
+          </div>
+        </section>
+    )
+  }
+
+  function VideoCards(): JSX.Element {
+    if (videoCards.length <= 0)
+      return <></>
+
+    return (
+        <section className={'nice-alignment'}>
+          <h1>Videos</h1>
+          <hr/>
+          <div id={'search-result-videos'}>
+            {videoCards.map((card, index) =>
+                <VideoCard key={index} video={card} channel={channels?.get(card.publisherId)}/>
+            )}
+          </div>
+        </section>
+    )
+  }
+
   return (
       <>
-        {
-          channelCards.length > 0
-              ? (
-                  <section className={'nice-alignment'}>
-                    <h1>Channels</h1>
-                    <hr/>
-                    <div id={'search-result-channels'}>
-                      {channelCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
-                    </div>
-                  </section>
-              ) : <></>
-        }
-        {
-          videoCards.length > 0
-              ? (
-                  <section className={'nice-alignment'}>
-                    <h1>Videos</h1>
-                    <hr/>
-                    <div id={'search-result-videos'}>
-                      {videoCards.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
-                    </div>
-                  </section>
-              ) : <></>
-        }
+        <ChannelCards/>
+        <VideoCards/>
       </>
   )
 }
