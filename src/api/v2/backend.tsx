@@ -50,7 +50,7 @@ export async function GetChannels(ids: string[]): Promise<ChannelPreviewCard[]> 
 }
 
 export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCard[], ChannelPreviewCard[]]> {
-  const url = IS_DEV ? '/search.json' : `${API_ENDPOINT}/v2/search?key=${keyword}&max=20`;
+  const url = IS_DEV ? '/search.json' : `${API_ENDPOINT}/v2/search?key=${keyword}`;
   try {
     const request = await fetch(url);
     if (request.ok) {
