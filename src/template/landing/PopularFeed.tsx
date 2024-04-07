@@ -19,19 +19,98 @@ import {useEffect, useState} from "react";
 
 import '../../assets/css/preview-card.css'
 
-import {VideoPreviewCard} from "../../api/v1/PreviewCard";
-import {PopularVideos} from "../../api/v1/backend";
+import {ChannelPreviewCard, readableDuration, VideoPreviewCard} from "../../api/v2/PreviewCard";
+import {GetChannels, PopularVideos} from "../../api/v2/backend";
+import {Link} from "react-router-dom";
+import {IonIcon} from "@ionic/react";
+import {timeFromNow} from "../../api/v2/InfoContainer";
+
+function ToHTML(card: { video: VideoPreviewCard, channel?: ChannelPreviewCard }) {
+  const video = card.video;
+  const channel = card.channel;
+
+  const [cUrl, setCUrl] = useState('');
+  const [cTitle, setCTitle] = useState('Fetching...')
+  const [cThumbnail, setCThumbnail] = useState('/icons/loading-profile-picture-32x32.webp')
+
+  useEffect(() => {
+    if (!channel)
+      return;
+
+    if (channel.url)
+      setCUrl(channel.url);
+    if (channel.title)
+      setCTitle(channel.title);
+    if (channel.thumbnail)
+      setCThumbnail(channel.thumbnail);
+
+  }, [channel]);
+
+  return (
+      <Link id={video.id} className={"pure-u video-preview-card preview-card"} to={`/watch?v=${video.id}`}>
+        <div className={"preview-thumbnail-container"}>
+          <img
+              className={"preview-thumbnail"}
+              src={`https://i.ytimg.com/vi/${video.id}/sddefault.jpg`}
+              alt=""
+          />
+          <div className={"preview-duration-layout"}>
+            <div className={"preview-duration"}>
+              <span>{readableDuration(video.duration)}</span>
+            </div>
+          </div>
+        </div>
+        <div className={"preview-description-container"}>
+          <h3>{video.title}</h3>
+          <Link to={`/${cUrl}`} className={"pure-g preview-channel-section"}>
+            <img className={"pure-u-1-4"}
+                 src={cThumbnail}
+                 alt=''
+            />
+            <span className={"pure-u-3-4"}>{cTitle}</span>
+          </Link>
+        </div>
+        <div className={"pure-g preview-video-statistics-container"}>
+            <span className={"pure-u-1-4"}>
+              <IonIcon icon="thumbs-up-sharp"/>
+              {video.getLikesAsString()}
+            </span>
+          <span className={"pure-u-1-4"}>
+              <IonIcon icon="eye-sharp"/>
+            {video.getViewsAsString()}
+            </span>
+          <span className={"pure-u-1-2"}>
+              <IonIcon icon="time-sharp"/>
+            {timeFromNow(video.since.value)}
+            </span>
+        </div>
+      </Link>
+  )
+}
 
 export default function PopularFeed() {
   const [videos, setVideos] = useState<VideoPreviewCard[]>([]);
+  const [channels, setChannels] = useState<Map<string, ChannelPreviewCard>>();
   useEffect(() => {
-    const getVideos = async () => setVideos(await PopularVideos());
+    const getVideos = async () => {
+      const popular = await PopularVideos();
+      setVideos(popular);
+
+      const cIds = () => popular.map(v => v.publisherId);
+      const cCards = await GetChannels(cIds());
+
+      const channelMap: Map<string, ChannelPreviewCard> = new Map();
+      for (const card of cCards)
+        channelMap.set(card.id, card);
+
+      setChannels(channelMap);
+    }
     getVideos();
   }, []);
 
   return (
       <div id='trending-feed' className={"pure-g"}>
-        {videos.map((card, index) => <React.Fragment key={index}>{card.toHtml()}</React.Fragment>)}
+        {videos.map((card) => <ToHTML video={card} channel={channels?.get(card.publisherId)}/>)}
       </div>
   )
 }
