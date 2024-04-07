@@ -55,16 +55,21 @@ function CommentCard(comment: Comment, index: number) {
 
 export default function WatchPage() {
   const [params] = useSearchParams();
+  const videoId = params.get('v');
+
+  if (!videoId)
+    window.location.href = '/';
+
   const [video, setVideo] = useState<VideoPlayer>();
   useEffect(() => {
     const getVideo = async () => {
-      const fromBackend = await GetVideo(params.get('v'));
+      const fromBackend = await GetVideo(videoId);
       if (fromBackend)
         setVideo(fromBackend);
     }
     getVideo();
 
-  }, [params, setVideo]);
+  }, [params, videoId]);
 
   if (!video)
     return <></>
@@ -73,7 +78,7 @@ export default function WatchPage() {
       <>
         <section id='player' className={'nice-alignment'}>
           <iframe
-              src={`https://www.youtube.com/embed/${video.id}`}
+              src={`https://www.youtube.com/embed/${videoId}`}
               title={video.title}
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               referrerPolicy="strict-origin-when-cross-origin"
