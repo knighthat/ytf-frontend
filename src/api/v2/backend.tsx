@@ -17,6 +17,8 @@
 
 import {VideoPreviewCard, ChannelPreviewCard} from "./PreviewCard";
 import {plainToInstance} from "class-transformer";
+import {VideoDetails} from "./DetailsCard";
+import Comment from "./Comment";
 
 const API_ENDPOINT: string = `${import.meta.env.VITE_API_ENDPOINT}/v2`;
 const IS_DEV: boolean = import.meta.env.DEV;
@@ -73,4 +75,32 @@ export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCar
   }
 
   return [[], []];
+}
+
+export async function GetVideoDetails(id: string): Promise<VideoDetails | null> {
+  const url = IS_DEV ? '/video-details.json' : `${API_ENDPOINT}/details/video?id=${id}`;
+  try {
+    const request = await fetch(url);
+    if (request.ok) {
+      const data = await request.json();
+      return plainToInstance(VideoDetails, data as object);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  return null
+}
+
+export async function GetVideoComment(id: string): Promise<Comment[]> {
+  const url = IS_DEV ? '/video-comments.json' : `${API_ENDPOINT}/comments?id=${id}`;
+  try {
+    const request = await fetch(url);
+    if (request.ok) {
+      const data = await request.json();
+      return plainToInstance(Comment, data);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+  return [];
 }
