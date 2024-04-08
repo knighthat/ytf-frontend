@@ -17,62 +17,86 @@
 
 import './watch-page.css'
 
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {GetVideo} from "../../api/v1/backend";
-import {Comment, VideoPlayer} from "../../api/v1/VideoPlayer";
-import {IonIcon} from "@ionic/react";
 
-function CommentCard(comment: Comment, index: number) {
-  return (
-      <div key={index} id={'comment-card'}>
-        <section className={'pure-g commenter-wrapper'}>
-          <img src={comment.authorThumbnail} alt={`${comment.author}'s logo`} className={'comment-author'}/>
-          <div>
-            <h3>
-              <Link to={`/${comment.author}`}>
-                {comment.author}
-              </Link>
-            </h3>
-            <sub className={'pure-u-1'}>{new Date(comment.since.value).toDateString()}</sub>
-          </div>
-          <div id='comment-statistics'>
-            <IonIcon icon={'thumbs-up-outline'}/>
-            <span>{comment.likes}</span>
-          </div>
-        </section>
-        <section className={'comment-text'}>
-          <article>
-            <p>{comment.text}</p>
-          </article>
-        </section>
-        <section className={'pure-g comment-statistics'}>
-
-        </section>
-      </div>
-  )
-}
+import {ChannelPreviewCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
+import {GetChannelPreviewCards, GetVideoComment, GetVideoDetails} from "../../api/v2/backend";
+import Comment, {CommentCard} from "../../api/v2/Comment";
+import {VideoDetails} from "../../api/v2/DetailsCard";
 
 export default function WatchPage() {
   const [params] = useSearchParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const [video, setVideo] = useState<VideoPreviewCard>();
+  const [channel, setChannel] = useState<ChannelPreviewCard>();
+  const [desc, setDesc] = useState("");
+  const [comments, setComments] = useState<Comment[]>();
+
   const videoId = params.get('v');
-
-  if (!videoId)
-    window.location.href = '/';
-
-  const [video, setVideo] = useState<VideoPlayer>();
+  const state = location.state;
   useEffect(() => {
-    const getVideo = async () => {
-      const fromBackend = await GetVideo(videoId);
-      if (fromBackend)
-        setVideo(fromBackend);
-    }
-    getVideo();
+    if (videoId) {
+      if (state) {
+        /*
+          State is only available when user clicks on
+          video card showed in either main page, or
+          search page.
+           */
+        if (state.videoCard)
+          setVideo(state.videoCard);
+        if (state.channelCard)
+          setChannel(state.channelCard);
+      }
 
-  }, [params, videoId]);
+      GetVideoDetails(videoId).then(video => {
+        if (!video)
+          return;
+
+        setVideo(video)
+        setDesc(video.description)
+      });
+
+      if (!channel)
+          /*
+          Only query for ChannelPreviewCard when
+          it's not passed with VideoPreviewCard from Link
+           */
+        GetChannelPreviewCards([videoId]).then(card => {
+          if (card)
+            setChannel(card[0]);
+        });
+
+      GetVideoComment(videoId).then(comments => setComments(comments));
+    } else
+        // Redirect client to main page if no id of video were provided
+      navigate('/');
+
+  }, [channel, navigate, state, videoId]);
 
   if (!video)
     return <></>
+
+  function CommentSection(): JSX.Element {
+    if (!comments)
+      return <></>
+
+    return (
+        <div id={'comment-section'} className={'nice-alignment'}>
+          <hr/>
+          <h2>{video instanceof VideoDetails ? video.commentCount : '...'} Comments</h2>
+          <article>
+            {
+              comments.map((comment, index) =>
+                  <CommentCard key={index} comment={comment}/>
+              )
+            }
+          </article>
+        </div>
+    )
+  }
 
   return (
       <>
@@ -90,37 +114,18 @@ export default function WatchPage() {
             <h1>{video.title}</h1>
             <sub><b>Uploaded:</b> {(new Date(video.since.value)).toDateString()}</sub>
           </div>
-          <Link to={`/${video.publisher.url}`} className={'channel-container'}>
-            <img src={video.publisher.thumbnail} alt={`${video.publisher.title}'s logo`}/>
-            <span>{video.publisher.title}</span>
+          <Link to={`/${channel?.url}`} className={'channel-container'}>
+            <img src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
+            <span>{channel?.title}</span>
           </Link>
           <details className={'video-description-container'}>
             <summary>Description</summary>
             <pre>
-              <p>{video.description}</p>
+              <p>{desc}</p>
             </pre>
           </details>
         </section>
-        <div id={'comment-section'} className={'nice-alignment'}>
-          <hr/>
-          <h2>{video.commentCount} Comments</h2>
-          <article>
-            {
-              video.comments.map((comment, index) => (
-                  <CommentCard key={index}
-                               id={comment.id}
-                               text={comment.text}
-                               author={comment.author}
-                               authorThumbnail={comment.authorThumbnail}
-                               likes={comment.likes}
-                               since={comment.since}
-                               replies={comment.replies}
-                  />
-              ))
-            }
-          </article>
-        </div>
+        <CommentSection/>
       </>
-
   )
 }
