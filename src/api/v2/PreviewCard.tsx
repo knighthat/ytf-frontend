@@ -118,7 +118,11 @@ export function VideoCard(card: { video: VideoPreviewCard, channel?: ChannelPrev
   }
 
   return (
-      <Link className={"pure-u video-preview-card preview-card"} to={`/watch?v=${video.id}`}>
+      <Link
+          className={"pure-u video-preview-card preview-card"}
+          to={`/watch?v=${video.id}`}
+          state={{videoCard: video, channelCard: channel}}
+      >
         <div className={"preview-thumbnail-container"}>
           <img
               src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
