@@ -59,12 +59,12 @@ export default function WatchPage() {
         setDesc(video.description)
       });
 
-      if (!channel)
+      if (!channel && video)
           /*
           Only query for ChannelPreviewCard when
           it's not passed with VideoPreviewCard from Link
            */
-        GetChannelPreviewCards([videoId]).then(card => {
+        GetChannelPreviewCards([video.publisherId]).then(card => {
           if (card)
             setChannel(card[0]);
         });
@@ -74,7 +74,7 @@ export default function WatchPage() {
         // Redirect client to main page if no id of video were provided
       navigate('/');
 
-  }, [channel, navigate, state, videoId]);
+  }, [channel, navigate, state, video, videoId]);
 
   if (!video)
     return <></>
