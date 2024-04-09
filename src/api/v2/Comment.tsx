@@ -15,9 +15,12 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import InfoContainer, {DateTime} from "./InfoContainer";
 import {Link} from "react-router-dom";
 import {IonIcon} from "@ionic/react";
+
+import '../../assets/css/comment-card.scss'
+
+import InfoContainer, {DateTime} from "./InfoContainer";
 
 export default class Comment extends InfoContainer {
 
@@ -44,8 +47,8 @@ export function CommentCard(props: { comment: Comment }): JSX.Element {
   return (
       <div id={'comment-card'}>
         <section className={'pure-g commenter-wrapper'}>
-          <img src={comment.authorThumbnail} alt={`${comment.author}'s logo`} className={'comment-author'}/>
-          <div>
+          <img src={comment.authorThumbnail} alt={`${comment.author}'s logo`} className={'icon-mr-10'}/>
+          <div className={'author-handle-and-date'}>
             <h3>
               <Link to={`/${comment.author}`}>
                 {comment.author}
@@ -58,10 +61,10 @@ export function CommentCard(props: { comment: Comment }): JSX.Element {
             <span>{comment.likes}</span>
           </div>
         </section>
-        <section className={'comment-text'}>
-          <article>
-            <p>{comment.text}</p>
-          </article>
+        <section id={'comment-text'}>
+          <pre>
+            {comment.text}
+          </pre>
         </section>
       </div>
   )

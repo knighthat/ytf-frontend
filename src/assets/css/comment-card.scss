@@ -1,0 +1,88 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "global-vars";
+
+.theme-light {
+  .commenter-wrapper {
+    background-color: darken($theme-light-bg-2, 10%);
+  }
+
+  #comment-text {
+    background-color: hsl(49, 64%, 55%);
+  }
+}
+
+.theme-dark {
+  .commenter-wrapper {
+    background-color: darken($theme-dark-bg-2, 10%);
+  }
+
+  #comment-text {
+    background-color: rgba(255, 255, 255, .1);
+  }
+}
+
+.commenter-wrapper {
+  padding: 1rem;
+  justify-content: flex-start;
+  border-radius: 40px 40px 0 0;
+
+  img {
+    border-radius: 50%;
+  }
+}
+
+.author-handle-and-date {
+  max-height: 48px;
+
+  h3 {
+    margin: 0 0 .4rem 0;
+  }
+
+  sub {
+    margin-left: 5px
+  }
+}
+
+#comment-statistics {
+  align-self: center;
+  margin-left: auto;
+
+  display: inline-block;
+
+  &, span, ion-icon {
+    vertical-align: middle;
+  }
+
+  ion-icon {
+    margin-right: 5px;
+  }
+}
+
+#comment-text {
+  --comment-text-indentation: calc(48px + 1rem + 10px);
+  padding: 1rem var(--comment-text-indentation) .5rem var(--comment-text-indentation);
+  margin-bottom: 1.5rem;
+  border-radius: 0 0 20px 20px;
+
+  pre {
+    margin: 0;
+    line-height: 1.3rem;
+    white-space: pre-wrap;
+  }
+}

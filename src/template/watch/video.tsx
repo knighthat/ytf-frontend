@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './watch-page.css'
+import './watch-page.scss'
 
 import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
@@ -100,7 +100,7 @@ export default function WatchPage() {
 
   return (
       <>
-        <section id='player' className={'nice-alignment'}>
+        <section id='player'>
           <iframe
               src={`https://www.youtube.com/embed/${videoId}`}
               title={video.title}
@@ -110,19 +110,17 @@ export default function WatchPage() {
           </iframe>
         </section>
         <section className={'nice-alignment'}>
-          <div className={'video-title-container'}>
+          <div id={'video-title'}>
             <h1>{video.title}</h1>
             <sub><b>Uploaded:</b> {(new Date(video.since.value)).toDateString()}</sub>
           </div>
-          <Link to={`/${channel?.url}`} className={'channel-container'}>
-            <img src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
+          <Link to={`/${channel?.url}`} id={'video-publisher'}>
+            <img className={'icon-mr-10'} src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
             <span>{channel?.title}</span>
           </Link>
-          <details className={'video-description-container'}>
+          <details id={'video-description'}>
             <summary>Description</summary>
-            <pre>
-              <p>{desc}</p>
-            </pre>
+            <pre>{desc}</pre>
           </details>
         </section>
         <CommentSection/>
