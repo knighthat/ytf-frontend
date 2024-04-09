@@ -20,8 +20,8 @@ function MakeLi(props: ListProps): JSX.Element {
         <>
           {
             props.isIcon
-                ? <IonIcon size="large" icon={props.icon}/>
-                : <img src={'/icons/' + props.icon + '-32x32.png'} alt={props.alt}/>
+                ? <IonIcon className={'icon-mr-10'} size="large" icon={props.icon}/>
+                : <img className={'icon-mr-10'} src={'/icons/' + props.icon + '-32x32.png'} alt={props.alt}/>
           }
           <span>{props.text}</span>
         </>
