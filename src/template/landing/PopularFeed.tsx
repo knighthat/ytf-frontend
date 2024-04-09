@@ -43,7 +43,7 @@ export default function PopularFeed() {
   }, []);
 
   return (
-      <div id='trending-feed' className={"pure-g"}>
+      <div id='popular-feed' className={"pure-g"}>
         {videos.map((card, index) =>
             <VideoCard key={index} video={card} channel={channels?.get(card.publisherId)}/>
         )}
