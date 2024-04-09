@@ -52,8 +52,6 @@ function applyScreenType(isSmallScreen: boolean) {
     add = big;
   }
 
-  console.log(rootElement!.classList)
-
   rootElement!.classList.remove(remove);
   rootElement!.classList.add(add);
 }
