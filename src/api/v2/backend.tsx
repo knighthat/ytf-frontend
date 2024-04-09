@@ -96,7 +96,7 @@ export async function GetVideoDetails(id: string): Promise<VideoDetails | null> 
 }
 
 export async function GetVideoComment(id: string): Promise<Comment[]> {
-  const url = IS_DEV ? GetJson('video-comments') : `${API_ENDPOINT}/comments?id=${id}`;
+  const url = IS_DEV ? GetJson('video-comments') : `${API_ENDPOINT}/comments?videoId=${id}`;
   try {
     const request = await fetch(url);
     if (request.ok) {
