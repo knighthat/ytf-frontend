@@ -23,8 +23,12 @@ import Comment from "./Comment";
 const API_ENDPOINT: string = `${import.meta.env.VITE_API_ENDPOINT}/v2`;
 const IS_DEV: boolean = import.meta.env.DEV;
 
+function GetJson(name: string): string {
+  return `../../../test/json/${name}.json`;
+}
+
 export async function PopularVideos(): Promise<Array<VideoPreviewCard>> {
-  const url = IS_DEV ? '/popular.json' : `${API_ENDPOINT}/popular`;
+  const url = IS_DEV ? GetJson('popular') : `${API_ENDPOINT}/popular`;
   try {
     const request = await fetch(url);
     if (request.ok) {
@@ -38,7 +42,7 @@ export async function PopularVideos(): Promise<Array<VideoPreviewCard>> {
 }
 
 export async function GetChannelPreviewCards(ids: string[]): Promise<ChannelPreviewCard[]> {
-  const url = IS_DEV ? '/channels.json' : `${API_ENDPOINT}/preview/channels`
+  const url = IS_DEV ? GetJson('channels') : `${API_ENDPOINT}/preview/channels`
   try {
     const request = await fetch(`${url}?id=${ids.join(',')}`)
     if (request.ok) {
@@ -52,7 +56,7 @@ export async function GetChannelPreviewCards(ids: string[]): Promise<ChannelPrev
 }
 
 export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCard[], ChannelPreviewCard[]]> {
-  const url = IS_DEV ? '/search.json' : `${API_ENDPOINT}/search?key=${keyword}`;
+  const url = IS_DEV ? GetJson('search') : `${API_ENDPOINT}/search?key=${keyword}`;
   try {
     const request = await fetch(url);
     if (request.ok) {
@@ -78,7 +82,7 @@ export async function SearchByKeyword(keyword: string): Promise<[VideoPreviewCar
 }
 
 export async function GetVideoDetails(id: string): Promise<VideoDetails | null> {
-  const url = IS_DEV ? '/video-details.json' : `${API_ENDPOINT}/details/video?id=${id}`;
+  const url = IS_DEV ? GetJson('video-details') : `${API_ENDPOINT}/details/video?id=${id}`;
   try {
     const request = await fetch(url);
     if (request.ok) {
@@ -92,7 +96,7 @@ export async function GetVideoDetails(id: string): Promise<VideoDetails | null> 
 }
 
 export async function GetVideoComment(id: string): Promise<Comment[]> {
-  const url = IS_DEV ? '/video-comments.json' : `${API_ENDPOINT}/comments?id=${id}`;
+  const url = IS_DEV ? GetJson('video-comments') : `${API_ENDPOINT}/comments?id=${id}`;
   try {
     const request = await fetch(url);
     if (request.ok) {
