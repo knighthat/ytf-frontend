@@ -62,11 +62,11 @@ body {
   min-height: calc(100% - 20rem);
   line-height: 1.618em;
 
-  section:first-child {
+  > section:first-child {
     margin-top: 2rem;
   }
 
-  section:last-child {
+  > section:last-child {
     margin-bottom: 5rem;
   }
 }
