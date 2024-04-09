@@ -1,0 +1,235 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import '../../assets/css/global-vars';
+
+$banner-border-light: 2px $theme-light-fg-1 solid;
+$banner-border-dark: 2px $theme-dark-fg-1 solid;
+
+$channel-title-border-radius: 40px;
+$channel-statistics-border-radius: 20px;
+
+.theme-dark {
+  #channel-banner {
+    border: $banner-border-dark;
+  }
+
+  #channel-title > figure::after {
+    background-color: $theme-dark-bg-1;
+
+    border-top: $banner-border-dark;
+    border-left: $banner-border-dark;
+    border-right: $banner-border-dark;
+  }
+
+  #channel-statistics > div::after {
+    background-color: $theme-dark-bg-1;
+
+    border-top: $banner-border-dark;
+    border-left: $banner-border-dark;
+    border-right: $banner-border-dark;
+  }
+}
+
+.theme-light {
+  #channel-banner {
+    border: $banner-border-light;
+  }
+
+  #channel-title > figure::after {
+    background-color: $theme-light-bg-1;
+
+    border-top: $banner-border-light;
+    border-left: $banner-border-light;
+    border-right: $banner-border-light;
+  }
+
+  #channel-statistics > div::after {
+
+    background-color: $theme-light-bg-1;
+
+    border-top: $banner-border-light;
+    border-left: $banner-border-light;
+    border-right: $banner-border-light;
+  }
+}
+
+#channel-title > figure::after,
+#channel-statistics > div::after {
+  content: "";
+  width: 100%;
+  height: 49%;
+
+  position: absolute;
+  top: -1px;
+  left: -2px;
+  z-index: -1;
+}
+
+#channel-banner {
+  width: 95%;
+  height: 250px;
+  margin: 3rem auto 0 auto;
+  background-size: cover;
+  background-position: center;
+}
+
+#channel-visual {
+  width: 95%;
+  margin: auto;
+  translate: 0 -50%;
+  align-items: center;
+
+  > .channel-title, > .channel-statistics {
+    margin: 0;
+  }
+}
+
+#channel-title {
+
+  figure {
+    width: fit-content;
+    padding: 1.3rem 2rem;
+    margin: 0 auto 0 10%;
+
+    position: relative;
+    border-radius: $channel-title-border-radius;
+
+    &::after {
+      border-top-right-radius: $channel-title-border-radius;
+      border-top-left-radius: $channel-title-border-radius;
+    }
+
+    img {
+      height: 6rem;
+      width: 6rem;
+      border-radius: 50%;
+    }
+
+    figcaption {
+      width: max-content;
+
+      h1 {
+        margin-bottom: 0;
+      }
+
+      sub {
+        margin-left: .5rem;
+      }
+    }
+  }
+
+}
+
+#channel-statistics {
+  $outer-border-radius: calc($channel-statistics-border-radius + ($channel-statistics-border-radius / 2));
+
+  position: relative;
+  justify-content: center;
+
+  > div {
+    width: fit-content;
+    margin: 0 10% 0 auto;
+    padding-top: 1rem;
+
+    position: relative;
+
+    justify-content: center;
+    border-radius: $outer-border-radius;
+
+    &::after {
+      border-top-right-radius: $outer-border-radius;
+      border-top-left-radius: $outer-border-radius;
+    }
+  }
+
+  button {
+    max-width: 200px;
+
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: large;
+
+    border: 0;
+    border-radius: $channel-statistics-border-radius;
+
+    $button-color: hsl(5, 100%, 40%);
+    background-color: $button-color;
+
+    &:hover {
+      background-color: lighten($button-color, 10%);
+      translate: 0 -1px;
+      transition: translate 100ms, background-color 100ms;
+    }
+
+    .divider-line {
+      height: 100%;
+      width: 2px; /* Width of the vertical line */
+      background-color: #eeeeee; /* Color of the vertical line */
+      margin: 0 10px; /* Adjust spacing around the vertical line */
+    }
+  }
+
+  button, span {
+    line-height: 1.2rem;
+  }
+
+  ul {
+    height: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    justify-content: space-around;
+
+    li {
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+    }
+  }
+}
+
+.half-top-border {
+  width: 100%;
+  height: 50%;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  border-left: black 2px solid;
+  border-top: black 2px solid;
+  border-right: black 2px solid;
+}
+
+/*
+    Description
+*/
+#channel-description {
+  margin-bottom: 3rem;
+
+  pre p {
+    white-space: pre-wrap;
+  }
+}

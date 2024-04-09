@@ -10,6 +10,7 @@ import Landing from "./template/landing/landing";
 import SearchPage from "./template/search/search";
 import Licenses from "./template/licenses/licenses";
 import WatchPage from "./template/watch/video";
+import ChannelPage from "./template/channel/channel";
 
 
 const rootElement = document.getElementById('root');
@@ -73,6 +74,7 @@ ReactDOM.createRoot(rootElement!).render(
             <Route path={'/search'} element={<SearchPage/>}/>
             <Route path={'/licenses'} element={<Licenses/>}/>
             <Route path={'/watch'} element={<WatchPage/>}/>
+            <Route path={'/channel/:channelId'} element={<ChannelPage/>}/>
           </Routes>
         </main>
         <Footer/>
