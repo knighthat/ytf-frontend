@@ -1,6 +1,6 @@
 import {IonIcon} from "@ionic/react";
 
-import './header.css'
+import './header.scss'
 
 import {SearchBar} from "../search/search";
 
@@ -8,7 +8,7 @@ export default function Header() {
   return (
       <header>
         <div className={'pure-u-1-24 pure-u-xl-1-4'}></div>
-        <div className={'pure-u-11-24 pure-u-xl-1-2 search-bar-alignment'}>
+        <div className={'pure-u-11-24 pure-u-xl-1-2'}>
           <SearchBar/>
         </div>
         <div className={'pure-u-1-2 pure-u-xl-1-4'}>

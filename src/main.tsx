@@ -2,8 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
-import './assets/css/global.css'
-import './main.css'
+import './main.scss'
 
 import Header from "./template/header/header";
 import Footer from "./template/footer/footer";

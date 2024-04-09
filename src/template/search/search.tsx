@@ -1,9 +1,7 @@
 import {FormEvent, useEffect, useState} from "react";
 import {useSearchParams} from "react-router-dom";
 
-import './search-bar.css'
-import '../../assets/css/video-preview-card.css'
-import '../../assets/css/channel-preview-card.css'
+import './search-bar.scss'
 
 import {ChannelCard, ChannelPreviewCard, VideoCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
 import {GetChannelPreviewCards, SearchByKeyword} from "../../api/v2/backend";
@@ -24,7 +22,7 @@ export function SearchBar() {
 
   return (
       <form
-          className={'search-bar-container'}
+          className={'search-bar-wrapper'}
           action={'/search'}
           onSubmit={handleSubmit}
       >

@@ -1,0 +1,118 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "../../assets/css/global-vars";
+
+.theme-dark {
+  footer {
+    background-color: $theme-dark-bg-2;
+    border-top: $theme-dark-fg-2 1px solid;
+  }
+}
+
+.theme-light {
+  footer {
+    background-color: $theme-light-bg-2;
+    border-top: $theme-light-fg-2 1px solid;
+  }
+}
+
+footer {
+  min-height: 15rem;
+  height: max-content;
+
+  hr {
+    margin: 0;
+  }
+
+  div {
+    margin: 0 10%;
+  }
+}
+
+.footer-section {
+  hr {
+    width: 70%;
+  }
+
+  ul {
+    padding-left: 0;
+    border-left: 2px $theme-dark-fg-2 solid;
+    margin-top: 0;
+
+    li {
+      list-style: none;
+      padding: 10px;
+
+      &:not(a) span {
+        pointer-events: none;
+      }
+
+      &:not(a),
+      &:has(a) > a {
+        display: flex;
+        align-items: center;
+
+        img, ion-icon {
+          min-width: 32px;
+          min-height: 32px;
+        }
+
+        span {
+          max-width: 300px;
+          @include text-overflow-ellipsis;
+        }
+      }
+    }
+  }
+}
+
+#copyright-notice,
+#project-version {
+  margin: .6rem 0;
+  display: flex;
+  align-items: center;
+
+  &#project-version {
+    justify-content: right;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  footer {
+    text-align: center;
+  }
+
+  .footer-section {
+    hr {
+      width: inherit;
+    }
+
+    ul {
+      border: none;
+
+      li {
+        justify-content: center;
+      }
+    }
+  }
+
+  #copyright-notice,
+  #project-version {
+    justify-content: center !important;
+  }
+}

@@ -17,7 +17,8 @@
 
 import {useEffect, useState} from "react";
 
-import '../../assets/css/preview-card.css'
+import './popular-feed.scss'
+import '../../assets/css/preview-card.scss'
 
 import {ChannelPreviewCard, VideoPreviewCard, VideoCard} from "../../api/v2/PreviewCard";
 import {GetChannelPreviewCards, PopularVideos} from "../../api/v2/backend";

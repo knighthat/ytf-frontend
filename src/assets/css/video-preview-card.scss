@@ -1,0 +1,96 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import 'global-vars.scss';
+
+$video-duration-margin: 1rem;
+$video-duration-border: white;
+$video-duration-color: white;
+
+.video-preview-card {
+  width: 18rem;
+
+  a {
+    max-width: 100%;
+  }
+
+  figure {
+    margin: 0;
+    position: relative;
+
+    img {
+      max-width: 100%;
+      vertical-align: top;
+    }
+
+    figcaption {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+
+      margin: $video-duration-margin;
+      padding: .2rem .4rem;
+
+      opacity: 90%;
+      color: $video-duration-color;
+
+      background: $theme-dark-bg-2;
+
+      border-radius: 5px;
+      border: 1px $video-duration-border solid;
+    }
+  }
+
+  h3 {
+    line-height: 2rem;
+    @include text-overflow-ellipsis;
+
+    margin: 0 5px 1rem 5px;
+  }
+}
+
+.video-preview-channel-section {
+  align-items: center;
+  margin-left: 2%;
+
+  img {
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+  }
+
+  span {
+    line-height: 1rem;
+  }
+}
+
+.video-preview-statistics {
+  margin-top: 1rem;
+  margin-bottom: .3rem;
+
+  span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+
+  ion-icon {
+    margin-right: 5px;
+    color: #777;
+  }
+}

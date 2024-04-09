@@ -1,0 +1,71 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "../../assets/css/global-vars";
+
+.theme-dark {
+  header {
+    background-color: $theme-dark-bg-2;
+    border-bottom: $theme-dark-fg-2 1px solid;
+  }
+
+  #search-bar {
+    background-color: $theme-dark-bg-2;
+  }
+}
+
+.theme-light {
+  header {
+    background-color: $theme-light-bg-2;
+    border-bottom: $theme-light-fg-2 1px solid;
+  }
+
+  #search-bar {
+    background-color: $theme-light-bg-2;
+  }
+}
+
+header {
+  height: 5rem;
+
+  display: flex;
+  align-items: center;
+}
+
+nav {
+  text-align: right;
+
+  ul li {
+    display: inline-block;
+    padding: .5rem;
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+
+      font-size: large;
+    }
+  }
+}
+
+.small-screen .nav-item span {
+  display: none;
+}
+
+.big-screen .nav-item ion-icon {
+  display: none;
+}

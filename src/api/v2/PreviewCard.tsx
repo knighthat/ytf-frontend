@@ -19,6 +19,9 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {IonIcon} from "@ionic/react";
 
+import '../../assets/css/video-preview-card.scss'
+import '../../assets/css/channel-preview-card.scss'
+
 import InfoContainer, {DateTime, timeFromNow} from "./InfoContainer";
 import {roundToMagnitude} from "../../utils/NumUtils";
 

@@ -1,0 +1,53 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+@import "global-vars";
+
+$card-border-width: 1px;
+$card-border-hover-trans: 300ms;
+
+.theme-dark {
+  .preview-card:hover {
+    border: white $card-border-width solid !important;
+    transition: border-top-color $card-border-hover-trans,
+    border-right-color $card-border-hover-trans,
+    border-bottom-color $card-border-hover-trans,
+    border-left-color $card-border-hover-trans;
+  }
+}
+
+#search-result-channels,
+#search-result-videos {
+  margin: 1rem;
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+$card-border-default: #575757;
+$card-border-hover: white;
+
+.preview-card {
+  border: $card-border-width $card-border-default solid;
+
+  &:hover {
+    translate: 0 -1%;
+    transition: translate $card-border-hover-trans !important;
+  }
+}

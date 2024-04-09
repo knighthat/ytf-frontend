@@ -2,7 +2,7 @@ import {JSX, useEffect, useState} from "react";
 import {IonIcon} from "@ionic/react";
 import {Link} from "react-router-dom";
 
-import './footer.css'
+import './footer.scss'
 
 import {GetLatestCommit, GithubVersion} from "../../api/github";
 

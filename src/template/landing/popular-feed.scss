@@ -15,22 +15,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-/* Accent 1 */
-$theme-dark-bg-1: #222;
-$theme-dark-fg-1: #eee;
-/* Accent 2 */
-$theme-dark-bg-2: #111;
-$theme-dark-fg-2: #777;
-
-/* Accent 1 */
-$theme-light-bg-1: white;
-$theme-light-fg-1: black;
-/* Accent 2 */
-$theme-light-bg-2: hsl(211, 89%, 58%);
-$theme-light-fg-2: hsl(177, 33%, 79%);
-
-@mixin text-overflow-ellipsis {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+#popular-feed {
+  position: relative;
+  justify-content: center;
+  gap: 1rem;
 }
