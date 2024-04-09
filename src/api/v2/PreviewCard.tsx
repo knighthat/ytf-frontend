@@ -118,40 +118,37 @@ export function VideoCard(card: { video: VideoPreviewCard, channel?: ChannelPrev
   }
 
   return (
-      <Link
-          className={"pure-u video-preview-card preview-card"}
-          to={`/watch?v=${video.id}`}
-          state={{videoCard: video, channelCard: channel}}
-      >
-        <div className={"preview-thumbnail-container"}>
-          <img
-              src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
-              srcSet={`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`}
-              className={"preview-thumbnail"}
-              alt=""
-          />
-          <div className={"preview-duration-layout"}>
-            <div className={"preview-duration"}>
-              <span>{readableDuration(video.duration)}</span>
-            </div>
-          </div>
-        </div>
-        <div className={"preview-description-container"}>
-          <h3>{video.title}</h3>
-          <Link to={`/${cUrl}`} className={"pure-g preview-channel-section"}>
-            <img className={"pure-u-1-4"}
-                 src={cThumbnail}
-                 alt=''
+      <div className={'pure-u preview-card video-preview-card'}>
+        <Link
+            className={"pure-u"}
+            to={`/watch?v=${video.id}`}
+            state={{videoCard: video, channelCard: channel}}
+        >
+          <figure>
+            <img
+                src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
+                srcSet={`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`}
+                alt={`${video.title}'s thumbnail`}
             />
-            <span className={"pure-u-3-4"}>{cTitle}</span>
-          </Link>
-        </div>
-        <div className={"pure-g preview-video-statistics-container"}>
+            <figcaption className={'video-preview-duration-layout'}>
+              {readableDuration(video.duration)}
+            </figcaption>
+          </figure>
+          <h3>{video.title}</h3>
+        </Link>
+        <Link to={`/${cUrl}`} className={"pure-g video-preview-channel-section"}>
+          <img className={"pure-u-1-4 icon-mr-10"}
+               src={cThumbnail}
+               alt=''
+          />
+          <span className={"pure-u-3-4"}>{cTitle}</span>
+        </Link>
+        <div className={"pure-g video-preview-statistics"}>
           <Stat width={4} icon='thumbs-up-sharp' text={video.getLikesAsString()}/>
           <Stat width={4} icon='eye-sharp' text={video.getViewsAsString()}/>
           <Stat width={2} icon='time-sharp' text={timeFromNow(video.since.value)}/>
         </div>
-      </Link>
+      </div>
   )
 }
 
