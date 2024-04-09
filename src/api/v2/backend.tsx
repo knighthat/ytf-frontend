@@ -17,11 +17,11 @@
 
 import {VideoPreviewCard, ChannelPreviewCard} from "./PreviewCard";
 import {plainToInstance} from "class-transformer";
-import {VideoDetails} from "./DetailsCard";
+import {ChannelDetails, VideoDetails} from "./DetailsCard";
 import Comment from "./Comment";
 
 const API_ENDPOINT: string = `${import.meta.env.VITE_API_ENDPOINT}/v2`;
-const IS_DEV: boolean = import.meta.env.DEV;
+const IS_DEV: boolean = !import.meta.env.DEV;
 
 function GetJson(name: string): string {
   return `../../../test/json/${name}.json`;
@@ -105,6 +105,40 @@ export async function GetVideoComment(id: string): Promise<Comment[]> {
     }
   } catch (err) {
     console.log(err);
+  }
+  return [];
+}
+
+export async function GetChannelDetails(id: string): Promise<ChannelDetails | null> {
+  const url = IS_DEV ? GetJson('channel-details') : `${API_ENDPOINT}/details/channel?id=${id}`
+  try {
+    const request = await fetch(url);
+    if (request.ok) {
+      const data = await request.json();
+      return plainToInstance(ChannelDetails, data as object);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+  return null;
+}
+
+export async function GetVideosOf(channelId: string): Promise<VideoPreviewCard[]> {
+  const url = IS_DEV ? GetJson('search-videos-of') : `${API_ENDPOINT}/search?channelId=${channelId}`;
+  try {
+    const request = await fetch(url);
+    if (request.ok) {
+      const data = await request.json();
+      const cards: VideoPreviewCard[] = [];
+
+      for (const card of data)
+        if (card.type === 'VIDEO')
+          cards.push(plainToInstance(VideoPreviewCard, card as object));
+
+      return cards;
+    }
+  } catch (err) {
+    console.log(err)
   }
   return [];
 }
