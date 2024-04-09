@@ -13,7 +13,60 @@ import Licenses from "./template/licenses/licenses";
 import WatchPage from "./template/watch/video";
 
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const rootElement = document.getElementById('root');
+
+// Set default theme based on system's theme
+const themeMedia = window.matchMedia('(prefers-color-scheme: dark)');
+const [dark, light] = ['theme-dark', 'theme-light'];
+
+function applyTheme(isDarkMode: boolean) {
+  let remove: string, add: string;
+  if (isDarkMode) {
+    remove = light;
+    add = dark;
+  } else {
+    remove = dark;
+    add = light;
+  }
+
+  rootElement!.classList.remove(remove);
+  rootElement!.classList.add(add);
+}
+
+applyTheme(themeMedia.matches);
+// Listen to 'change' and apply appropriate theme
+themeMedia.addEventListener(
+    'change',
+    (event) => applyTheme(event.matches)
+);
+
+const widthMedia = window.matchMedia('(max-width: 1280px)');
+const [small, big] = ['small-screen', 'big-screen'];
+
+function applyScreenType(isSmallScreen: boolean) {
+  let remove: string, add: string;
+  if (isSmallScreen) {
+    remove = big;
+    add = small;
+  } else {
+    remove = small;
+    add = big;
+  }
+
+  console.log(rootElement!.classList)
+
+  rootElement!.classList.remove(remove);
+  rootElement!.classList.add(add);
+}
+
+applyScreenType(widthMedia.matches)
+// Listen to 'change' and apply appropriate screen type
+widthMedia.addEventListener(
+    'change',
+    () => applyScreenType(widthMedia.matches)
+);
+
+ReactDOM.createRoot(rootElement!).render(
     <React.StrictMode>
       <BrowserRouter>
         <Header/>
