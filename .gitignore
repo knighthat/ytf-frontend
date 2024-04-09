@@ -26,4 +26,4 @@ dist-ssr
 # Project
 .env
 pnpm-lock.yaml
-public/licenses.json
+src/assets/licenses.json
