@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {VideoDuration, VideoPreviewCard} from "./PreviewCard";
+import {ChannelPreviewCard, VideoDuration, VideoPreviewCard} from "./PreviewCard";
 import {DateTime} from "./InfoContainer";
 
 export class VideoDetails extends VideoPreviewCard {
@@ -27,5 +27,22 @@ export class VideoDetails extends VideoPreviewCard {
     super(id, since, duration, title, likes, views, publisherId);
     this.description = description;
     this.commentCount = commentCount;
+  }
+}
+
+export class ChannelDetails extends ChannelPreviewCard {
+
+  subscribers: number;
+  banner: string;
+  views: number;
+  description: string;
+
+
+  constructor(id: string, thumbnail: string, since: DateTime, title: string, url: string, subscribers: number, banner: string, views: number, description: string) {
+    super(id, thumbnail, since, title, url);
+    this.subscribers = subscribers;
+    this.banner = banner;
+    this.views = views;
+    this.description = description;
   }
 }
