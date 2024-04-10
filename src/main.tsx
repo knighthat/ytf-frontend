@@ -83,5 +83,5 @@ ReactDOM.createRoot(rootElement!).render(
         </main>
         <Footer/>
       </BrowserRouter>
-    </React.StrictMode>,
+    </React.StrictMode>
 )
