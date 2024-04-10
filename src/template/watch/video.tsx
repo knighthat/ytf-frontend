@@ -17,67 +17,66 @@
 
 import './watch-page.scss'
 
-import {Link, useLocation, useNavigate, useSearchParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {Link, useSearchParams} from "react-router-dom";
+import {useEffect, useRef, useState} from "react";
 
-import {ChannelPreviewCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
-import {GetChannelPreviewCards, GetVideoComment, GetVideoDetails} from "../../api/v2/backend";
+import {ChannelPreviewCard} from "../../api/v2/PreviewCard";
+import {GetChannelDetails, GetVideoComment, GetVideoDetails} from "../../api/v2/backend";
 import Comment, {CommentCard} from "../../api/v2/Comment";
 import {VideoDetails} from "../../api/v2/DetailsCard";
 
 export default function WatchPage() {
   const [params] = useSearchParams();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const isInitialRender = useRef(true);
 
-  const [video, setVideo] = useState<VideoPreviewCard>();
+  const [video, setVideo] = useState<VideoDetails>();
   const [channel, setChannel] = useState<ChannelPreviewCard>();
-  const [desc, setDesc] = useState("");
   const [comments, setComments] = useState<Comment[]>();
 
+  const GetVideo = () => {
+    if (!videoId)
+      return;
+
+    GetVideoDetails(videoId).then(card => {
+      if (card)
+        setVideo(card);
+    });
+  }
+
   const videoId = params.get('v');
-  const state = location.state;
   useEffect(() => {
-    if (videoId) {
-      if (state) {
-        /*
-          State is only available when user clicks on
-          video card showed in either main page, or
-          search page.
-           */
-        if (state.videoCard)
-          setVideo(state.videoCard);
-        if (state.channelCard)
-          setChannel(state.channelCard);
-      }
+    // Prevent GetVideo() from getting called twice
+    if (!isInitialRender.current)
+      GetVideo();
+    else
+      isInitialRender.current = false
+  }, [videoId]);
 
-      GetVideoDetails(videoId).then(video => {
-        if (!video)
-          return;
+  const GetChannel = () => {
+    if (!video)
+      return;
 
-        setVideo(video)
-        setDesc(video.description)
-      });
+    GetChannelDetails(video.publisherId).then(card => {
+      if (card)
+        setChannel(card);
+    })
+  }
 
-      if (!channel && video)
-          /*
-          Only query for ChannelPreviewCard when
-          it's not passed with VideoPreviewCard from Link
-           */
-        GetChannelPreviewCards([video.publisherId]).then(card => {
-          if (card)
-            setChannel(card[0]);
-        });
+  const GetComments = () => {
+    if (!video)
+      return
 
-      GetVideoComment(videoId).then(comments => setComments(comments));
+    GetVideoComment(video.id).then(cards => setComments(cards));
+  }
+
+  useEffect(() => {
+    // Prevent GetChannel() & GetComments() from getting called twice
+    if (!isInitialRender.current) {
+      GetChannel();
+      GetComments();
     } else
-        // Redirect client to main page if no id of video were provided
-      navigate('/');
-
-  }, [channel, navigate, state, video, videoId]);
-
-  if (!video)
-    return <></>
+      isInitialRender.current = false
+  }, [video]);
 
   function CommentSection(): JSX.Element {
     if (!comments)
@@ -98,32 +97,35 @@ export default function WatchPage() {
     )
   }
 
-  return (
-      <>
-        <section id='player'>
-          <iframe
-              src={`https://www.youtube.com/embed/${videoId}`}
-              title={video.title}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerPolicy="strict-origin-when-cross-origin"
-              allowFullScreen>
-          </iframe>
-        </section>
-        <section className={'nice-alignment'}>
-          <div id={'video-title'}>
-            <h1>{video.title}</h1>
-            <sub><b>Uploaded:</b> {(new Date(video.since.value)).toDateString()}</sub>
-          </div>
-          <Link to={`/${channel?.url}`} id={'video-publisher'}>
-            <img className={'icon-mr-10'} src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
-            <span>{channel?.title}</span>
-          </Link>
-          <details id={'video-description'}>
-            <summary>Description</summary>
-            <pre>{desc}</pre>
-          </details>
-        </section>
-        <CommentSection/>
-      </>
-  )
+
+  return !video
+      ? null
+      : (
+          <>
+            <section id='player'>
+              <iframe
+                  src={`https://www.youtube.com/embed/${videoId}`}
+                  title={video.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen>
+              </iframe>
+            </section>
+            <section className={'nice-alignment'}>
+              <div id={'video-title'}>
+                <h1>{video.title}</h1>
+                <sub><b>Uploaded:</b> {(new Date(video.since.value)).toDateString()}</sub>
+              </div>
+              <Link to={`/${channel?.url}`} id={'video-publisher'}>
+                <img className={'icon-mr-10'} src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
+                <span>{channel?.title}</span>
+              </Link>
+              <details id={'video-description'}>
+                <summary>Description</summary>
+                <pre>{video.description}</pre>
+              </details>
+            </section>
+            <CommentSection/>
+          </>
+      )
 }
