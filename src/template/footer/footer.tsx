@@ -37,8 +37,7 @@ function MakeLi(props: ListProps): JSX.Element {
 function GetVersion() {
   const [githubVersion, setGithubVersion] = useState<GithubVersion | null>();
   useEffect(() => {
-    const getCommit = async () => setGithubVersion(await GetLatestCommit());
-    getCommit();
+    GetLatestCommit().then(commit => setGithubVersion(commit));
   }, []);
 
   return (
