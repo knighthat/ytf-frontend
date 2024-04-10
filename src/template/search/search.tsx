@@ -69,7 +69,7 @@ export default function SearchPage() {
     }
 
     getCards();
-  }, [params]);
+  }, []);
 
   function ChannelCards(): JSX.Element {
     if (channelCards.length <= 0)
