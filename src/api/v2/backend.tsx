@@ -21,7 +21,7 @@ import {ChannelDetails, VideoDetails} from "./DetailsCard";
 import Comment from "./Comment";
 
 const API_ENDPOINT: string = `${import.meta.env.VITE_API_ENDPOINT}/v2`;
-const IS_DEV: boolean = !import.meta.env.DEV;
+const IS_DEV: boolean = import.meta.env.DEV;
 
 function GetJson(name: string): string {
   return `../../../test/json/${name}.json`;
