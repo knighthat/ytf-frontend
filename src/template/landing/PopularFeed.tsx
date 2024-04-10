@@ -24,28 +24,28 @@ import {ChannelPreviewCard, VideoPreviewCard, VideoCard} from "../../api/v2/Prev
 import {GetChannelPreviewCards, PopularVideos} from "../../api/v2/backend";
 
 export default function PopularFeed() {
-  const [videos, setVideos] = useState<VideoPreviewCard[]>([]);
+  const [videos, setVideos] = useState<VideoPreviewCard[]>();
   const [channels, setChannels] = useState<Map<string, ChannelPreviewCard>>();
-  useEffect(() => {
-    const getVideos = async () => {
-      const popular = await PopularVideos();
-      setVideos(popular);
 
-      const cIds = () => popular.map(v => v.publisherId);
-      const cCards = await GetChannelPreviewCards(cIds());
+  useEffect(() => {
+    const LoadPopularVideos = async () => {
+      const popularCards = await PopularVideos();
+      setVideos(popularCards);
 
       const channelMap: Map<string, ChannelPreviewCard> = new Map();
-      for (const card of cCards)
+
+      const channelCards = await GetChannelPreviewCards(popularCards.map(v => v.publisherId));
+      for (const card of channelCards)
         channelMap.set(card.id, card);
 
       setChannels(channelMap);
-    }
-    getVideos();
+    };
+    LoadPopularVideos();
   }, []);
 
   return (
       <div id='popular-feed' className={"pure-g"}>
-        {videos.map((card, index) =>
+        {videos?.map((card, index) =>
             <VideoCard key={index} video={card} channel={channels?.get(card.publisherId)}/>
         )}
       </div>
