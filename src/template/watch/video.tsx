@@ -18,7 +18,7 @@
 import './watch-page.scss'
 
 import {Link, useSearchParams} from "react-router-dom";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 
 import {ChannelPreviewCard} from "../../api/v2/PreviewCard";
 import {GetChannelDetails, GetVideoComment, GetVideoDetails} from "../../api/v2/backend";
@@ -27,55 +27,29 @@ import {VideoDetails} from "../../api/v2/DetailsCard";
 
 export default function WatchPage() {
   const [params] = useSearchParams();
-  const isInitialRender = useRef(true);
 
   const [video, setVideo] = useState<VideoDetails>();
   const [channel, setChannel] = useState<ChannelPreviewCard>();
   const [comments, setComments] = useState<Comment[]>();
 
-  const GetVideo = () => {
-    if (!videoId)
-      return;
-
-    GetVideoDetails(videoId).then(card => {
+  const videoId = params.get('v');
+  useEffect(() => {
+    GetVideoDetails(videoId!).then(card => {
       if (card)
         setVideo(card);
     });
-  }
+  }, []);
 
-  const videoId = params.get('v');
   useEffect(() => {
-    // Prevent GetVideo() from getting called twice
-    if (!isInitialRender.current)
-      GetVideo();
-    else
-      isInitialRender.current = false
-  }, [videoId]);
-
-  const GetChannel = () => {
     if (!video)
       return;
 
     GetChannelDetails(video.publisherId).then(card => {
       if (card)
         setChannel(card);
-    })
-  }
-
-  const GetComments = () => {
-    if (!video)
-      return
+    });
 
     GetVideoComment(video.id).then(cards => setComments(cards));
-  }
-
-  useEffect(() => {
-    // Prevent GetChannel() & GetComments() from getting called twice
-    if (!isInitialRender.current) {
-      GetChannel();
-      GetComments();
-    } else
-      isInitialRender.current = false
   }, [video]);
 
   function CommentSection(): JSX.Element {
@@ -96,7 +70,6 @@ export default function WatchPage() {
         </div>
     )
   }
-
 
   return !video
       ? null
