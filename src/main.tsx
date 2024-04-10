@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 
 import './main.scss'
 
@@ -70,6 +70,7 @@ ReactDOM.createRoot(rootElement!).render(
         <Header/>
         <main id={'page-content'}>
           <Routes>
+            <Route path={'*'} element={<Navigate to={'/'}/>}/>
             <Route path={'/'} element={<Landing/>}/>
             <Route path={'/search'} element={<SearchPage/>}/>
             <Route path={'/licenses'} element={<Licenses/>}/>
