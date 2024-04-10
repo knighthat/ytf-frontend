@@ -15,9 +15,15 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Navigate, Outlet, useSearchParams} from "react-router-dom";
+import {Navigate, Outlet, useParams, useSearchParams} from "react-router-dom";
 
 export function VerifyWatchId() {
   const [param] = useSearchParams();
   return param.get('v') ? <Outlet/> : <Navigate to={'/'}/>
+}
+
+export function VerifyChannelId() {
+  const {channelId} = useParams();
+  console.log(channelId);
+  return channelId ? <Outlet/> : <Navigate to={'/'}/>
 }

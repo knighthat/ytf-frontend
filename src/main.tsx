@@ -11,7 +11,7 @@ import SearchPage from "./template/search/search";
 import Licenses from "./template/licenses/licenses";
 import WatchPage from "./template/watch/video";
 import ChannelPage from "./template/channel/channel";
-import {VerifyWatchId} from "./paths";
+import {VerifyChannelId, VerifyWatchId} from "./paths";
 
 
 const rootElement = document.getElementById('root');
@@ -78,7 +78,9 @@ ReactDOM.createRoot(rootElement!).render(
             <Route element={<VerifyWatchId/>}>
               <Route path={'/watch'} element={<WatchPage/>}/>
             </Route>
-            <Route path={'/channel/:channelId'} element={<ChannelPage/>}/>
+            <Route element={<VerifyChannelId/>}>
+              <Route path={'/channel/:channelId'} element={<ChannelPage/>}/>
+            </Route>
           </Routes>
         </main>
         <Footer/>
