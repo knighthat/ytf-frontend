@@ -15,9 +15,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Link} from "react-router-dom";
-import {IonIcon} from "@ionic/react";
-
 import '@css/comment-card.scss'
 
 import InfoContainer, {DateTime} from "./InfoContainer";
@@ -40,32 +37,4 @@ export default class Comment extends InfoContainer {
     this.likes = likes;
     this.replies = replies;
   }
-}
-
-export function CommentCard(props: { comment: Comment }): JSX.Element {
-  const comment = props.comment;
-  return (
-      <div id={'comment-card'}>
-        <section className={'pure-g commenter-wrapper'}>
-          <img src={comment.authorThumbnail} alt={`${comment.author}'s logo`} className={'icon-mr-10'}/>
-          <div className={'author-handle-and-date'}>
-            <h3>
-              <Link to={`/${comment.author}`}>
-                {comment.author}
-              </Link>
-            </h3>
-            <sub className={'pure-u-1'}>{new Date(comment.since.value).toDateString()}</sub>
-          </div>
-          <div id='comment-statistics'>
-            <IonIcon icon={'thumbs-up-outline'}/>
-            <span>{comment.likes}</span>
-          </div>
-        </section>
-        <section id={'comment-text'}>
-          <pre>
-            {comment.text}
-          </pre>
-        </section>
-      </div>
-  )
 }
