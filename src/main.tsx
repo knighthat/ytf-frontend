@@ -87,3 +87,15 @@ ReactDOM.createRoot(rootElement!).render(
       </BrowserRouter>
     </React.StrictMode>
 )
+
+window.addEventListener('DOMContentLoaded', () => {
+  function tagHeight(tagName: string): number {
+    return document.getElementsByTagName(tagName)[0].clientHeight;
+  }
+
+  const pageContent = document.getElementById('page-content');
+  const headerHeight = tagHeight('header');
+  const footerHeight = tagHeight('footer');
+
+  pageContent!.style.minHeight = `calc(100svh - ${headerHeight}px - ${footerHeight}px - 2px)`;
+})
