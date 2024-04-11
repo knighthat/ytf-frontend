@@ -22,8 +22,37 @@ import {useEffect, useState} from "react";
 
 import {ChannelPreviewCard} from "@api2/PreviewCard";
 import {GetChannelDetails, GetVideoComment, GetVideoDetails} from "@api2/backend";
-import Comment, {CommentCard} from "@api2/Comment";
+import Comment from "@api2/Comment";
 import {VideoDetails} from "@api2/DetailsCard";
+import {IonIcon} from "@ionic/react";
+
+function CommentCard(props: { comment: Comment }): JSX.Element {
+  const comment = props.comment;
+  return (
+      <div id={'comment-card'}>
+        <section className={'pure-g commenter-wrapper'}>
+          <img src={comment.authorThumbnail} alt={`${comment.author}'s logo`} className={'icon-mr-10'}/>
+          <div className={'author-handle-and-date'}>
+            <h3>
+              <Link to={`/${comment.author}`}>
+                {comment.author}
+              </Link>
+            </h3>
+            <sub className={'pure-u-1'}>{new Date(comment.since.value).toDateString()}</sub>
+          </div>
+          <div id='comment-statistics'>
+            <IonIcon icon={'thumbs-up-outline'}/>
+            <span>{comment.likes}</span>
+          </div>
+        </section>
+        <section id={'comment-text'}>
+          <pre>
+            {comment.text}
+          </pre>
+        </section>
+      </div>
+  )
+}
 
 export default function WatchPage() {
   const [params] = useSearchParams();
