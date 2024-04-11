@@ -1,0 +1,105 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+$error-code-color: #ff508e;
+
+.theme-light {
+  #notfound-search-form > input {
+    border: 1px black solid;
+  }
+}
+
+#notfound {
+  width: max-content;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  text-align: center;
+
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+
+  a {
+    font-family: 'Raleway', sans-serif;
+    display: inline-block;
+    font-weight: 700;
+    border-radius: 15px;
+    text-decoration: none;
+
+    &, span, ion-icon {
+      vertical-align: middle;
+      color: #39b1cb;
+    }
+  }
+}
+
+h1#error-code {
+  height: 200px;
+
+  margin: 0;
+
+  line-height: 200px;
+
+  font-family: 'Fredoka One', cursive;
+  font-size: 168px;
+
+  color: $error-code-color;
+  text-transform: uppercase;
+}
+
+h2#error-message {
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+#notfound-search-form {
+  position: relative;
+  max-width: 400px;
+  margin: 2rem auto 1.6rem auto;
+
+  justify-content: space-evenly;
+  gap: 5px;
+
+  > input, > button {
+    height: 40px;
+    font-family: 'Raleway', sans-serif;
+    font-size: 1.2rem;
+    border-radius: 3px;
+    border: none;
+    padding: 3px 15px;
+  }
+
+  > input {
+    color: #222;
+    background: #f8fafb;
+  }
+
+  > button {
+    flex: 1;
+
+    color: white;
+    font-weight: 700;
+
+    background: $error-code-color;
+    cursor: pointer;
+  }
+}
