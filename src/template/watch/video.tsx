@@ -20,10 +20,10 @@ import './watch-page.scss'
 import {Link, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 
-import {ChannelPreviewCard} from "../../api/v2/PreviewCard";
-import {GetChannelDetails, GetVideoComment, GetVideoDetails} from "../../api/v2/backend";
-import Comment, {CommentCard} from "../../api/v2/Comment";
-import {VideoDetails} from "../../api/v2/DetailsCard";
+import {ChannelPreviewCard} from "@api2/PreviewCard";
+import {GetChannelDetails, GetVideoComment, GetVideoDetails} from "@api2/backend";
+import Comment, {CommentCard} from "@api2/Comment";
+import {VideoDetails} from "@api2/DetailsCard";
 
 export default function WatchPage() {
   const [params] = useSearchParams();

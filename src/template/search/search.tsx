@@ -3,8 +3,8 @@ import {useSearchParams} from "react-router-dom";
 
 import './search-bar.scss'
 
-import {ChannelCard, ChannelPreviewCard, VideoCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
-import {GetChannelPreviewCards, SearchByKeyword} from "../../api/v2/backend";
+import {ChannelCard, ChannelPreviewCard, VideoCard, VideoPreviewCard} from "@api2/PreviewCard";
+import {GetChannelPreviewCards, SearchByKeyword} from "@api2/backend";
 
 
 export function SearchBar() {

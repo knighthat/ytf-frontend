@@ -18,7 +18,7 @@
 import {Link} from "react-router-dom";
 import {IonIcon} from "@ionic/react";
 
-import '../../assets/css/comment-card.scss'
+import '@css/comment-card.scss'
 
 import InfoContainer, {DateTime} from "./InfoContainer";
 

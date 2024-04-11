@@ -1,6 +1,6 @@
 import './licenses.css'
 
-import licensesFile from '../../assets/licenses.json'
+import licensesFile from '@/assets/licenses.json'
 import {plainToInstance} from "class-transformer";
 
 class DependencyFile {

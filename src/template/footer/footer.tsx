@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 
 import './footer.scss'
 
-import {GetLatestCommit, GithubVersion} from "../../api/github";
+import {GetLatestCommit, GithubVersion} from "@/api/github";
 
 interface ListProps {
   icon: string;

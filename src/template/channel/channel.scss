@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-@import '../../assets/css/global-vars';
+@import '@css/global-vars.scss';
 
 $banner-border-light: 2px $theme-light-fg-1 solid;
 $banner-border-dark: 2px $theme-dark-fg-1 solid;

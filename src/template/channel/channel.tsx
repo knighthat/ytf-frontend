@@ -16,16 +16,17 @@
  */
 
 import {useParams} from "react-router-dom";
+import {IonIcon} from "@ionic/react";
+
 import {useEffect, useState} from "react";
 
 import './channel.scss';
-import '../../assets/css/preview-card.scss'
+import '@css/preview-card.scss'
 
-import {GetChannelDetails, GetVideosOf} from "../../api/v2/backend";
-import {ChannelDetails} from "../../api/v2/DetailsCard";
-import {IonIcon} from "@ionic/react";
-import {roundToMagnitude} from "../../utils/NumUtils";
-import {VideoCard, VideoPreviewCard} from "../../api/v2/PreviewCard";
+import {GetChannelDetails, GetVideosOf} from "@api2/backend";
+import {ChannelDetails} from "@api2/DetailsCard";
+import {roundToMagnitude} from "@/utils/NumUtils";
+import {VideoCard, VideoPreviewCard} from "@api2/PreviewCard";
 
 function sort(value1: number, value2: number, reversed: boolean = false): number {
   const descendingOrder = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;

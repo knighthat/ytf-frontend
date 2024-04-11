@@ -18,10 +18,10 @@
 import {useEffect, useState} from "react";
 
 import './popular-feed.scss'
-import '../../assets/css/preview-card.scss'
+import '@css/preview-card.scss'
 
-import {ChannelPreviewCard, VideoPreviewCard, VideoCard} from "../../api/v2/PreviewCard";
-import {GetChannelPreviewCards, PopularVideos} from "../../api/v2/backend";
+import {ChannelPreviewCard, VideoPreviewCard, VideoCard} from "@api2/PreviewCard";
+import {GetChannelPreviewCards, PopularVideos} from "@api2/backend";
 
 export default function PopularFeed() {
   const [videos, setVideos] = useState<VideoPreviewCard[]>();
