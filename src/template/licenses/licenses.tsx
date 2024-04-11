@@ -1,4 +1,4 @@
-import './licenses.css'
+import './licenses.scss'
 
 import licensesFile from '@/assets/licenses.json'
 import {plainToInstance} from "class-transformer";
@@ -36,45 +36,40 @@ class Dependency {
 }
 
 export default function Licenses() {
-
-  const depFile = plainToInstance(DependencyFile, licensesFile);
   const deps: Dependency[] = [];
-  for (const key in depFile) {
-    if (key === "ytf-frontend@0.0.0")
-      continue;
-    deps.push(new Dependency(key, depFile[key].licenses, depFile[key].repository));
+
+  const file = plainToInstance(DependencyFile, licensesFile);
+  for (const key in licensesFile)
+    deps.push(new Dependency(key, file[key].licenses, file[key].repository))
+
+  function License() {
+    return deps.map((license, index) =>
+        <tr key={index}>
+          <td>
+            <a href={license.repository} target='_blank'>{license.name}</a>
+          </td>
+          <td>{license.version}</td>
+          <td>
+            <a href={license.licenseUrl()} target='_blank'>{license.license}</a>
+          </td>
+        </tr>
+    )
   }
 
   return (
-      <table>
-        <thead>
-        <tr>
-          <th>Name</th>
-          <th>Version</th>
-          <th>License</th>
-        </tr>
-        </thead>
-        <tbody>
-        {
-          deps.map((license, index) => {
-            return (
-                <tr key={index}>
-                  <td>
-                    <a href={license.repository} target='_blank'>
-                      {license.name}
-                    </a>
-                  </td>
-                  <td>{license.version}</td>
-                  <td>
-                    <a href={license.licenseUrl()} target='_blank'>
-                      {license.license}
-                    </a>
-                  </td>
-                </tr>
-            )
-          })
-        }
-        </tbody>
-      </table>
+      <section className={'nice-alignment'}>
+        <table className={'pure-table pure-table-horizontal'}>
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Version</th>
+            <th>License</th>
+          </tr>
+          </thead>
+          <tbody>
+          {License()}
+          </tbody>
+        </table>
+      </section>
   )
 }
