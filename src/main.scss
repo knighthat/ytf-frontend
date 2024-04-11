@@ -17,16 +17,18 @@
 
 @import "assets/css/global-vars";
 
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
 #root {
   min-width: 100svw;
   min-height: 100svh;
 
   margin: 0;
   padding: 0;
-
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
 
   color-scheme: light dark;
   font-family: "Open Sans", sans-serif;
@@ -58,6 +60,7 @@
 #page-content {
   line-height: 1.618em;
   overflow: hidden;
+  position: relative;
 
   > section:first-child {
     margin-top: 2rem;
