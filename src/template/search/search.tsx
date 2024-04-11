@@ -67,8 +67,8 @@ export default function SearchPage() {
       setChannels(channelMap);
 
     }
-
     getCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function ChannelCards(): JSX.Element {

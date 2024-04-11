@@ -67,6 +67,7 @@ export default function WatchPage() {
       if (card)
         setVideo(card);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

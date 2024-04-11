@@ -49,6 +49,7 @@ export default function ChannelPage() {
       cards.sort((c1, c2) => sort(c1.since.value, c2.since.value, true));
       setVideos(cards);
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return !channel
