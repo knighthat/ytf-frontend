@@ -129,6 +129,7 @@ export function VideoCard(card: { video: VideoPreviewCard, channel?: ChannelPrev
         >
           <figure>
             <img
+                className={'pure-img'}
                 src={`https://i.ytimg.com/vi/${video.id}/maxresdefault.jpg`}
                 srcSet={`https://i.ytimg.com/vi/${video.id}/mqdefault.jpg`}
                 alt={`${video.title}'s thumbnail`}

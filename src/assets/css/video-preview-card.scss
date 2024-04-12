@@ -22,18 +22,22 @@ $video-duration-border: white;
 $video-duration-color: white;
 
 .video-preview-card {
-  width: 18rem;
+  max-width: 18rem;
+  overflow: hidden;
 
   a {
     max-width: 100%;
   }
 
   figure {
+    width: 18rem;
+    aspect-ratio: 16 / 9;
     margin: 0;
     position: relative;
 
     img {
-      max-width: 100%;
+      max-height: 100%;
+      min-width: 100%;
       vertical-align: top;
     }
 
