@@ -82,6 +82,7 @@ ReactDOM.createRoot(rootElement!).render(
             </Route>
             <Route element={<VerifyChannelId/>}>
               <Route path={'/channel/:channelId'} element={<ChannelPage/>}/>
+              <Route path={'/:channelId'} element={<ChannelPage/>}/>
             </Route>
           </Routes>
         </main>

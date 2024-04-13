@@ -24,8 +24,11 @@ export function VerifyWatchId() {
 
 export function VerifyChannelId() {
   const {channelId} = useParams();
-  console.log(channelId);
-  return channelId ? <Outlet/> : <Navigate to={'/'}/>
+
+  const isChannelId = channelId
+      ? channelId.startsWith('@') || window.location.pathname.startsWith('/channel/')
+      : false;
+  return isChannelId ? <Outlet/> : <Navigate to={'/'}/>
 }
 
 export function VerifySearchKey() {
