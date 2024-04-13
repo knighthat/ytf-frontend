@@ -23,7 +23,7 @@ import '@css/video-preview-card.scss'
 import '@css/channel-preview-card.scss'
 
 import InfoContainer, {DateTime, timeFromNow} from "./InfoContainer";
-import {roundToMagnitude} from "@/utils/NumUtils";
+import {roundToMagnitude} from "@/assets/ts/NumUtils";
 
 export class VideoDuration {
   hours: number;

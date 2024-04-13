@@ -25,7 +25,7 @@ import '@css/preview-card.scss'
 
 import {GetChannelDetails, GetVideosOf} from "@api2/backend";
 import {ChannelDetails} from "@api2/DetailsCard";
-import {roundToMagnitude} from "@/utils/NumUtils";
+import {roundToMagnitude} from "@/assets/ts/NumUtils";
 import {VideoCard, VideoPreviewCard} from "@api2/PreviewCard";
 import {BackendError} from "@api2/BackendError";
 import ErrorPage from "@/template/error/template";

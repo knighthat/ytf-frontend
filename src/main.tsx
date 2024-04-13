@@ -11,7 +11,7 @@ import SearchPage from "./template/search/search";
 import Licenses from "./template/licenses/licenses";
 import WatchPage from "./template/watch/video";
 import ChannelPage from "./template/channel/channel";
-import {VerifyChannelId, VerifySearchKey, VerifyWatchId} from "./paths";
+import {VerifyChannelId, VerifySearchKey, VerifyWatchId} from "./assets/ts/paths";
 
 
 const rootElement = document.getElementById('root');
