@@ -1,0 +1,131 @@
+/*!
+ * Copyright (c) 2024 KnightHat. All Rights Reserved
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+$bg-color: #222;
+$error-code-color: hsl(0, 93%, 45%);
+$error-code-size: 250px;
+$action-button-color: hsl(291, 28%, 29%);
+
+.theme-dark, .theme-light {
+  #page-content {
+    background-color: $bg-color;
+    color: white;
+
+    span, a, button {
+      color: white;
+    }
+  }
+}
+
+#error-message {
+  text-align: center;
+
+  > p > span {
+    line-height: 4rem;
+    font-size: x-large;
+  }
+
+  span:first-child {
+    color: darken($error-code-color, 10%);
+    font-family: "Fredoka One", sans-serif;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  span:last-child {
+    font-family: "Raleway", sans-serif;
+
+    &, ion-icon {
+      vertical-align: middle;
+    }
+
+    ion-icon {
+      color: hsl(47, 95%, 52%);
+    }
+  }
+}
+
+#possible-actions {
+  margin: 3rem 0;
+  text-align: center;
+
+  ul {
+    white-space: normal;
+
+    li {
+      padding: 2rem;
+
+      button, a {
+        padding: 1rem 1.5rem;
+
+        display: flex;
+        align-items: center;
+
+        background-color: $action-button-color;
+
+        &:hover {
+          background-color: lighten($action-button-color, 20%);
+        }
+
+        border-radius: 30px;
+        border: none;
+      }
+    }
+  }
+}
+
+#stack-trace {
+  .stack-trace-header, pre {
+    padding: 1.5rem;
+  }
+
+  .stack-trace-header {
+    position: relative;
+
+    font-size: larger;
+
+    background-color: $action-button-color;
+    border-radius: 20px 20px 0 0;
+
+
+    ion-icon {
+      margin-right: 3rem;
+
+      position: absolute;
+      top: 50%;
+      right: 0;
+      z-index: 100;
+
+      cursor: pointer;
+
+      transform: translate(0, -50%);
+    }
+  }
+
+  pre {
+    overflow: auto;
+
+    background-color: lighten($bg-color, 5%);
+    margin: 0;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  #stack-trace .stack-trace-header ion-icon {
+    display: none;
+  }
+}
