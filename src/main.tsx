@@ -11,7 +11,7 @@ import SearchPage from "./template/search/search";
 import Licenses from "./template/licenses/licenses";
 import WatchPage from "./template/watch/video";
 import ChannelPage from "./template/channel/channel";
-import {VerifyChannelId, VerifyWatchId} from "./paths";
+import {VerifyChannelId, VerifySearchKey, VerifyWatchId} from "./paths";
 
 
 const rootElement = document.getElementById('root');
@@ -73,7 +73,9 @@ ReactDOM.createRoot(rootElement!).render(
           <Routes>
             <Route path={'*'} element={<Navigate to={'/'}/>}/>
             <Route path={'/'} element={<Landing/>}/>
-            <Route path={'/search'} element={<SearchPage/>}/>
+            <Route element={<VerifySearchKey/>}>
+              <Route path={'/search'} element={<SearchPage/>}/>
+            </Route>
             <Route path={'/licenses'} element={<Licenses/>}/>
             <Route element={<VerifyWatchId/>}>
               <Route path={'/watch'} element={<WatchPage/>}/>

@@ -27,3 +27,8 @@ export function VerifyChannelId() {
   console.log(channelId);
   return channelId ? <Outlet/> : <Navigate to={'/'}/>
 }
+
+export function VerifySearchKey() {
+  const [param] = useSearchParams();
+  return param.get('key') ? <Outlet/> : <Navigate to='/'/>
+}
