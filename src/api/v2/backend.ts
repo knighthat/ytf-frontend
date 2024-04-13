@@ -109,8 +109,9 @@ export async function GetVideoComment(id: string): Promise<Comment[] | BackendEr
     return request;
 }
 
-export async function GetChannelDetails(id: string): Promise<ChannelDetails | BackendError> {
-  const request = await FetchFromBackend('channel-details', 'details/channel', `id=${id}`);
+export async function GetChannelDetails(id?: string, handle?: string): Promise<ChannelDetails | BackendError> {
+  const query = id ? `id=${id}` : (handle ? `handle=${handle}` : '')
+  const request = await FetchFromBackend('channel-details', 'details/channel', query);
 
   if (request instanceof Response) {
     const data = await request.json();

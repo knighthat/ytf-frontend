@@ -45,7 +45,13 @@ export default function ChannelPage() {
   useEffect(() => {
     const GetChannel = async () => {
 
-      const cDetails = await GetChannelDetails(channelId!);
+      let channelUID = undefined, channelHandle = undefined;
+      if (channelId?.startsWith('@'))
+        channelHandle = channelId;
+      else
+        channelUID = channelId;
+
+      const cDetails = await GetChannelDetails(channelUID, channelHandle);
       if (cDetails instanceof BackendError) {
         setError(cDetails);
         return;
