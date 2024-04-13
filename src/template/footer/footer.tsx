@@ -6,6 +6,9 @@ import './footer.scss'
 
 import {GetLatestCommit, GithubVersion} from "@/api/github";
 
+const SOURCE_CODE_URL = import.meta.env.VITE_SOURCE_CODE;
+const CONTACT_EMAIL = import.meta.env.VITE_CONTACT_EMAIL;
+
 interface ListProps {
   icon: string;
   isIcon: boolean;
@@ -57,8 +60,8 @@ export default function Footer() {
             <hr/>
             <ul>
               <MakeLi icon='code-working-sharp' isIcon={true} text='YTF Project'/>
-              <MakeLi icon='logo-github' isIcon={true} text='Source code'/>
-              <MakeLi icon='mail-sharp' isIcon={true} text='Contact'/>
+              <MakeLi icon='logo-github' isIcon={true} text='Source code' to={SOURCE_CODE_URL}/>
+              <MakeLi icon='mail-sharp' isIcon={true} text='Contact' to={`mailto:${CONTACT_EMAIL}`}/>
             </ul>
           </section>
           <section className={'pure-u-1 pure-u-lg-1-3 footer-section'}>
