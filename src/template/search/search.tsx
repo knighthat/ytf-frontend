@@ -5,6 +5,8 @@ import './search-bar.scss'
 
 import {ChannelCard, ChannelPreviewCard, VideoCard, VideoPreviewCard} from "@api2/PreviewCard";
 import {GetChannelPreviewCards, SearchByKeyword} from "@api2/backend";
+import {BackendError} from "@api2/BackendError";
+import ErrorPage from "@/template/error/template";
 
 
 export function SearchBar() {
@@ -42,34 +44,39 @@ export function SearchBar() {
 export default function SearchPage() {
   const [params] = useSearchParams();
 
+  const [error, setError] = useState<BackendError>();
   const [videoCards, setVideoCards] = useState<VideoPreviewCard[]>([]);
   const [channelCards, setChannelCards] = useState<ChannelPreviewCard[]>([]);
-  const [channels, setChannels] = useState<Map<string, ChannelPreviewCard>>();
+  const [channels, setChannels] = useState<Map<string, ChannelPreviewCard>>(new Map());
 
   useEffect(() => {
+    const GetSearchResults = async () => {
+      const keyword = params.get('key')!;
 
-    const keyword = params.get('key');
-    if (keyword == null)
-      return;
+      const searchResults = await SearchByKeyword(keyword)
+      if (searchResults instanceof BackendError) {
+        setError(searchResults);
+        return
+      }
 
-    const getCards = async () => {
-      const [videos, channels] = await SearchByKeyword(keyword);
-      setVideoCards(videos);
-      setChannelCards(channels);
+      const [vPreviewCards, cPreviewCards] = searchResults;
+      setVideoCards(vPreviewCards);
+      setChannelCards(cPreviewCards);
 
-      const cIds = () => videos.map(v => v.publisherId);
-      const cCards = await GetChannelPreviewCards(cIds());
+      const cards = await GetChannelPreviewCards(vPreviewCards.map(v => v.publisherId));
+      if (cards instanceof BackendError) {
+        setError(cards);
+        return
+      }
 
       const channelMap: Map<string, ChannelPreviewCard> = new Map();
-      for (const card of cCards)
+      for (const card of cards)
         channelMap.set(card.id, card);
 
       setChannels(channelMap);
-
     }
-    getCards();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    GetSearchResults();
+  }, [params]);
 
   function ChannelCards(): JSX.Element {
     if (channelCards.length <= 0)
@@ -105,10 +112,9 @@ export default function SearchPage() {
     )
   }
 
-  return (
+  return error ? <ErrorPage error={error}/> :
       <>
         <ChannelCards/>
         <VideoCards/>
       </>
-  )
 }

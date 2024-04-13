@@ -22,32 +22,43 @@ import '@css/preview-card.scss'
 
 import {ChannelPreviewCard, VideoPreviewCard, VideoCard} from "@api2/PreviewCard";
 import {GetChannelPreviewCards, PopularVideos} from "@api2/backend";
+import {BackendError} from "@api2/BackendError";
+import ErrorPage from "@/template/error/template";
 
 export default function PopularFeed() {
+  const [error, setError] = useState<BackendError>();
   const [videos, setVideos] = useState<VideoPreviewCard[]>();
   const [channels, setChannels] = useState<Map<string, ChannelPreviewCard>>();
 
   useEffect(() => {
-    const LoadPopularVideos = async () => {
-      const popularCards = await PopularVideos();
-      setVideos(popularCards);
+    const GetPopularVideos = async () => {
+      const popularVideos = await PopularVideos();
+      if (popularVideos instanceof BackendError) {
+        setError(popularVideos);
+        return;
+      } else
+        setVideos(popularVideos);
 
-      const channelMap: Map<string, ChannelPreviewCard> = new Map();
+      const channels = await GetChannelPreviewCards(popularVideos.map(v => v.publisherId));
+      if (channels instanceof BackendError) {
+        setError(channels);
+        return;
+      } else {
+        const channelMap: Map<string, ChannelPreviewCard> = new Map();
 
-      const channelCards = await GetChannelPreviewCards(popularCards.map(v => v.publisherId));
-      for (const card of channelCards)
-        channelMap.set(card.id, card);
+        for (const card of channels)
+          channelMap.set(card.id, card);
 
-      setChannels(channelMap);
+        setChannels(channelMap)
+      }
     };
-    LoadPopularVideos();
+    GetPopularVideos();
   }, []);
 
-  return (
+  return error ? <ErrorPage error={error}/> :
       <div id='popular-feed' className={"pure-g"}>
         {videos?.map((card, index) =>
             <VideoCard key={index} video={card} channel={channels?.get(card.publisherId)}/>
         )}
       </div>
-  )
 }

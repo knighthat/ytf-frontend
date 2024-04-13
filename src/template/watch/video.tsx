@@ -19,12 +19,14 @@ import './watch-page.scss'
 
 import {Link, useSearchParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {IonIcon} from "@ionic/react";
 
 import {ChannelPreviewCard} from "@api2/PreviewCard";
 import {GetChannelDetails, GetVideoComment, GetVideoDetails} from "@api2/backend";
 import Comment from "@api2/Comment";
 import {VideoDetails} from "@api2/DetailsCard";
-import {IonIcon} from "@ionic/react";
+import {BackendError} from "@api2/BackendError";
+import ErrorPage from "@/template/error/template";
 
 function CommentCard(props: { comment: Comment }): JSX.Element {
   const comment = props.comment;
@@ -56,31 +58,41 @@ function CommentCard(props: { comment: Comment }): JSX.Element {
 
 export default function WatchPage() {
   const [params] = useSearchParams();
+  const videoId = params.get('v')!;
 
+
+  const [error, setError] = useState<BackendError>();
   const [video, setVideo] = useState<VideoDetails>();
   const [channel, setChannel] = useState<ChannelPreviewCard>();
   const [comments, setComments] = useState<Comment[]>();
 
-  const videoId = params.get('v');
   useEffect(() => {
-    GetVideoDetails(videoId!).then(card => {
-      if (card)
-        setVideo(card);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    const GetDetails = async () => {
 
-  useEffect(() => {
-    if (!video)
-      return;
+      const vDetails = await GetVideoDetails(videoId);
+      if (vDetails instanceof BackendError) {
+        setError(vDetails);
+        return;
+      } else
+        setVideo(vDetails);
 
-    GetChannelDetails(video.publisherId).then(card => {
-      if (card)
-        setChannel(card);
-    });
+      const cDetails = await GetChannelDetails(vDetails.publisherId);
+      if (cDetails instanceof BackendError) {
+        setError(cDetails);
+        return
+      } else
+        setChannel(cDetails);
 
-    GetVideoComment(video.id).then(cards => setComments(cards));
-  }, [video]);
+      const comments = await GetVideoComment(vDetails.id);
+      if (comments instanceof BackendError) {
+        setError(comments)
+        return
+      } else
+        setComments(comments);
+
+    }
+    GetDetails();
+  }, [videoId, params]);
 
   function CommentSection(): JSX.Element {
     if (!comments)
@@ -101,34 +113,37 @@ export default function WatchPage() {
     )
   }
 
-  return !video
-      ? null
-      : (
-          <>
-            <section id='player'>
-              <iframe
-                  src={`https://www.youtube.com/embed/${videoId}`}
-                  title={video.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                  allowFullScreen>
-              </iframe>
-            </section>
-            <section className={'nice-alignment'}>
-              <div id={'video-title'}>
-                <h1>{video.title}</h1>
-                <sub><b>Uploaded:</b> {(new Date(video.since.value)).toDateString()}</sub>
-              </div>
-              <Link to={`/${channel?.url}`} id={'video-publisher'}>
-                <img className={'icon-mr-10'} src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
-                <span>{channel?.title}</span>
-              </Link>
-              <details id={'video-description'}>
-                <summary>Description</summary>
-                <pre>{video.description}</pre>
-              </details>
-            </section>
-            <CommentSection/>
-          </>
-      )
+  if (error)
+    return <ErrorPage error={error}/>
+  else if (!video)
+    return <ErrorPage error={BackendError.NOT_FOUND}/>
+  else
+    return (
+        <>
+          <section id='player'>
+            <iframe
+                src={`https://www.youtube.com/embed/${videoId}`}
+                title={video.title}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen>
+            </iframe>
+          </section>
+          <section className={'nice-alignment'}>
+            <div id={'video-title'}>
+              <h1>{video.title}</h1>
+              <sub><b>Uploaded:</b> {(new Date(video.since.value)).toDateString()}</sub>
+            </div>
+            <Link to={`/${channel?.url}`} id={'video-publisher'}>
+              <img className={'icon-mr-10'} src={channel?.thumbnail} alt={`${channel?.title}'s logo`}/>
+              <span>{channel?.title}</span>
+            </Link>
+            <details id={'video-description'}>
+              <summary>Description</summary>
+              <pre>{video.description}</pre>
+            </details>
+          </section>
+          <CommentSection/>
+        </>
+    )
 }

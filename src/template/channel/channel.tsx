@@ -27,6 +27,8 @@ import {GetChannelDetails, GetVideosOf} from "@api2/backend";
 import {ChannelDetails} from "@api2/DetailsCard";
 import {roundToMagnitude} from "@/utils/NumUtils";
 import {VideoCard, VideoPreviewCard} from "@api2/PreviewCard";
+import {BackendError} from "@api2/BackendError";
+import ErrorPage from "@/template/error/template";
 
 function sort(value1: number, value2: number, reversed: boolean = false): number {
   const descendingOrder = value1 < value2 ? -1 : value1 > value2 ? 1 : 0;
@@ -36,74 +38,90 @@ function sort(value1: number, value2: number, reversed: boolean = false): number
 export default function ChannelPage() {
   const {channelId} = useParams();
 
+  const [error, setError] = useState<BackendError>();
   const [channel, setChannel] = useState<ChannelDetails>();
   const [videos, setVideos] = useState<VideoPreviewCard[]>([]);
 
   useEffect(() => {
-    GetChannelDetails(channelId!).then(card => {
-      if (card)
-        setChannel(card)
-    });
+    const GetChannel = async () => {
 
-    GetVideosOf(channelId!).then(cards => {
-      cards.sort((c1, c2) => sort(c1.since.value, c2.since.value, true));
-      setVideos(cards);
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+      const cDetails = await GetChannelDetails(channelId!);
+      if (cDetails instanceof BackendError) {
+        setError(cDetails);
+        return;
+      } else
+        setChannel(cDetails);
 
-  return !channel
-      ? null
-      : (
-          <>
-            <div id='channel-banner' className="image-container" style={{backgroundImage: `url(${channel?.banner})`}}></div>
-            <section id='channel-visual' className={'pure-g'}>
-              <div id='channel-title' className={'pure-u-2-3'}>
-                <figure>
-                  <img
-                      className={'pure-u-1-2 icon-mr-10'}
-                      src={channel.thumbnail}
-                      alt={`${channel.title}'s logo`}
-                  />
-                  <figcaption className={'pure-u-1-2'}>
-                    <h1>{channel.title}</h1>
-                    <sub>{channel.url}</sub>
-                  </figcaption>
-                </figure>
+      const cVideos = await GetVideosOf(channelId!);
+      if (cVideos instanceof BackendError) {
+        setError(cVideos);
+        return;
+      } else {
+        cVideos.sort((c1, c2) =>
+            sort(c1.since.value, c2.since.value, true)
+        );
+        setVideos(cVideos);
+      }
+
+    }
+    GetChannel();
+  }, [channelId]);
+
+  if (error)
+    return <ErrorPage error={error}/>
+  else if (!channel)
+    return <ErrorPage error={BackendError.NOT_FOUND}/>
+  else
+    return (
+        <>
+          <div id='channel-banner' className="image-container" style={{backgroundImage: `url(${channel?.banner})`}}></div>
+          <section id='channel-visual' className={'pure-g'}>
+            <div id='channel-title' className={'pure-u-2-3'}>
+              <figure>
+                <img
+                    className={'pure-u-1-2 icon-mr-10'}
+                    src={channel.thumbnail}
+                    alt={`${channel.title}'s logo`}
+                />
+                <figcaption className={'pure-u-1-2'}>
+                  <h1>{channel.title}</h1>
+                  <sub>{channel.url}</sub>
+                </figcaption>
+              </figure>
+            </div>
+            <div id='channel-statistics' className={'pure-u-1-3'}>
+              <div className={'pure-g'}>
+                <button id={'channel-page-subscribe-button'} className={'pure-u-1'}>
+                  Subscribe
+                  <span className={'divider-line'}></span>
+                  {roundToMagnitude(channel.subscribers)}
+                </button>
+                <ul className={'pure-u-1'}>
+                  <li>
+                    <IonIcon className={'icon-mr-5'} icon='eye-sharp'/>
+                    <span>{roundToMagnitude(channel.views)}</span>
+                  </li>
+                  <li>
+                    <IonIcon className={'icon-mr-5'} icon='film-outline'/>
+                    <span>247</span>
+                  </li>
+                </ul>
               </div>
-              <div id='channel-statistics' className={'pure-u-1-3'}>
-                <div className={'pure-g'}>
-                  <button id={'channel-page-subscribe-button'} className={'pure-u-1'}>
-                    Subscribe
-                    <span className={'divider-line'}></span>
-                    {roundToMagnitude(channel.subscribers)}
-                  </button>
-                  <ul className={'pure-u-1'}>
-                    <li>
-                      <IonIcon className={'icon-mr-5'} icon='eye-sharp'/>
-                      <span>{roundToMagnitude(channel.views)}</span>
-                    </li>
-                    <li>
-                      <IonIcon className={'icon-mr-5'} icon='film-outline'/>
-                      <span>247</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </section>
-            <section id={'channel-description'} className={'nice-alignment'}>
+            </div>
+          </section>
+          <section id={'channel-description'} className={'nice-alignment'}>
               <pre>
                 <p>{channel.description}</p>
               </pre>
-            </section>
-            <hr/>
-            <section className={'nice-alignment'}>
-              <div id='search-result-videos'>
-                {videos.map((card, index) =>
-                    <VideoCard key={index} video={card} channel={channel}/>
-                )}
-              </div>
-            </section>
-          </>
-      )
+          </section>
+          <hr/>
+          <section className={'nice-alignment'}>
+            <div id='search-result-videos'>
+              {videos.map((card, index) =>
+                  <VideoCard key={index} video={card} channel={channel}/>
+              )}
+            </div>
+          </section>
+        </>
+    )
 }
