@@ -21,7 +21,7 @@ $error-code-size: 250px;
 $action-button-color: hsl(291, 28%, 29%);
 
 .theme-dark, .theme-light {
-  #page-content {
+  #page-content:has(#error-message) {
     background-color: $bg-color;
     color: white;
 
@@ -40,7 +40,7 @@ $action-button-color: hsl(291, 28%, 29%);
   }
 
   span:first-child {
-    color: darken($error-code-color, 10%);
+    color: darken($error-code-color, 10%) !important;
     font-family: "Fredoka One", sans-serif;
     font-weight: bold;
     text-transform: uppercase;
