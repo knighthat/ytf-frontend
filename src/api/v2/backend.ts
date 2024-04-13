@@ -49,7 +49,7 @@ async function FetchFromBackend(jsonFile: string, path: string, query?: string):
 }
 
 export async function PopularVideos(): Promise<VideoPreviewCard[] | BackendError> {
-  const request = await FetchFromBackend('popular', 'populars', undefined);
+  const request = await FetchFromBackend('popular', 'popular', undefined);
 
   if (request instanceof Response) {
     const data = await request.json();
