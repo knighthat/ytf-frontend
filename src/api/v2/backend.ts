@@ -110,7 +110,10 @@ export async function GetVideoComment(id: string): Promise<Comment[] | BackendEr
 }
 
 export async function GetChannelDetails(id?: string, handle?: string): Promise<ChannelDetails | BackendError> {
-  const query = id ? `id=${id}` : (handle ? `handle=${handle}` : '')
+  if (!id && !handle)
+    throw SyntaxError('Either \"id\" or \"handle\" must be provided!' );
+
+  const query = id ? `id=${id}` : `channelHandle=${handle}`;
   const request = await FetchFromBackend('channel-details', 'details/channel', query);
 
   if (request instanceof Response) {
