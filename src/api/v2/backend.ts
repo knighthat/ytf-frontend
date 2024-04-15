@@ -123,8 +123,12 @@ export async function GetChannelDetails(id?: string, handle?: string): Promise<C
     return request;
 }
 
-export async function GetVideosOf(channelId: string): Promise<VideoPreviewCard[] | BackendError> {
-  const request = await FetchFromBackend('search-videos-of', 'search', `channelId=${channelId}`);
+export async function GetVideosOf(channelId?: string, channelHandle?: string): Promise<VideoPreviewCard[] | BackendError> {
+  if (!channelId && !channelHandle)
+    throw SyntaxError( 'Either \"channelId\" or \"channelHandle\" must be provided!' );
+
+  const query = channelId ? `channelId=${channelId}` : `channelHandle=${channelHandle}`;
+  const request = await FetchFromBackend('search-videos-of', 'search', query);
 
   if (request instanceof Response) {
     const cards: VideoPreviewCard[] = [];
