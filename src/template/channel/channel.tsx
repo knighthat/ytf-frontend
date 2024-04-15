@@ -58,7 +58,7 @@ export default function ChannelPage() {
       } else
         setChannel(cDetails);
 
-      const cVideos = await GetVideosOf(channelId!);
+      const cVideos = await GetVideosOf(channelUID, channelHandle);
       if (cVideos instanceof BackendError) {
         setError(cVideos);
         return;
